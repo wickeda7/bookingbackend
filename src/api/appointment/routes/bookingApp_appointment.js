@@ -7,7 +7,7 @@ module.exports = {
     },
     {
       method: "GET",
-      path: "/appointments/user/:id/:done/:type", ////api/appointments/user/:id
+      path: "/appointments/user/:id/:done/:type", ///api/appointments/user/:id
       handler: "appointment.user",
     },
     {
