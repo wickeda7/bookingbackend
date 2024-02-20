@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sub_services",
+  "info": {
+    "singularName": "sub-service",
+    "pluralName": "sub-services",
+    "displayName": "subService",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "enable": {
+      "type": "boolean",
+      "default": true
+    },
+    "sort": {
+      "type": "integer"
+    },
+    "items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::item.item",
+      "mappedBy": "sub_service"
+    },
+    "service": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::service.service",
+      "inversedBy": "sub_services"
+    }
+  }
+}

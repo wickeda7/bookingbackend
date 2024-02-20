@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "appointments",
+  "info": {
+    "singularName": "appointment",
+    "pluralName": "appointments",
+    "displayName": "appointment",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "confirmed": {
+      "type": "boolean",
+      "default": false
+    },
+    "done": {
+      "type": "boolean",
+      "default": false
+    },
+    "services": {
+      "type": "json"
+    },
+    "specialist": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "appointmentsSpecialist"
+    },
+    "client": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "appointmentsClient"
+    },
+    "store": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::store.store",
+      "inversedBy": "appointments"
+    },
+    "timeslot": {
+      "type": "integer"
+    },
+    "date": {
+      "type": "date"
+    },
+    "userID": {
+      "type": "integer"
+    },
+    "storeID": {
+      "type": "integer"
+    },
+    "specialistID": {
+      "type": "integer"
+    },
+    "canceled": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

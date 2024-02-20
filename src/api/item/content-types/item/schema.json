@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "items",
+  "info": {
+    "singularName": "item",
+    "pluralName": "items",
+    "displayName": "Item",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "priceOption": {
+      "type": "string"
+    },
+    "enable": {
+      "type": "boolean",
+      "default": true
+    },
+    "sort": {
+      "type": "integer"
+    },
+    "service": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::service.service",
+      "inversedBy": "items"
+    },
+    "sub_service": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::sub-service.sub-service",
+      "inversedBy": "items"
+    }
+  }
+}

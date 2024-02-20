@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_infos",
+  "info": {
+    "singularName": "user-info",
+    "pluralName": "user-infos",
+    "displayName": "userInfo",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "about": {
+      "type": "text"
+    },
+    "experience": {
+      "type": "integer"
+    },
+    "profileImg": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "favoriteStores": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::store.store"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "userInfo"
+    },
+    "specialty": {
+      "type": "string"
+    },
+    "hours": {
+      "type": "json"
+    }
+  }
+}
