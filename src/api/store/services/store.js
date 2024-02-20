@@ -17,7 +17,7 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
             fields: ["url"],
           },
           employee: {
-            fields: ["firstName", "lastName", "email", "phoneNumber"],
+            fields: ["email"],
             filters: {
               blocked: {
                 $eq: false,
@@ -26,6 +26,7 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
 
             populate: {
               userInfo: {
+                fields: ["firstName", "lastName", "firebase", "phoneNumber"],
                 populate: {
                   profileImg: {
                     fields: ["url"],
@@ -72,7 +73,7 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
           },
         },
       });
-
+      console.log(entry);
       return entry;
     } catch (error) {
       console.log(error);
