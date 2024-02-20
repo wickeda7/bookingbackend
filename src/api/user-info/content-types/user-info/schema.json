@@ -56,6 +56,18 @@
     },
     "hours": {
       "type": "json"
+    },
+    "firebase": {
+      "type": "string"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "string"
     }
   }
 }

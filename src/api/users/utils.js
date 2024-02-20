@@ -37,10 +37,8 @@ const register = async (ctx) => {
       {
         email,
         password,
-        phoneNumber,
         username,
         role,
-        firebase,
       },
       [
         "confirmed",
@@ -67,14 +65,24 @@ const register = async (ctx) => {
   if (conflictingUserCount > 0) {
     throw new ApplicationError("Email is already taken");
   }
-
+  const entryInfo = await strapi.entityService.create(
+    "api::user-info.user-info",
+    {
+      data: {
+        firebase,
+        phoneNumber,
+      },
+    }
+  );
   const newUser = {
     ...params,
     //role: role.id,
+    userInfo: entryInfo.id,
     email: email.toLowerCase(),
     confirmed: !settings.email_confirmation,
   };
   const user = await getService("user").add(newUser);
+  user.userInfo = { id: entryInfo.id, firebase };
   const sanitizedUser = await sanitizeUser(user, ctx);
 
   //sanitizedUser["roleId"] = role.id;
@@ -99,39 +107,15 @@ const register = async (ctx) => {
 const getUser = async (ctx, next) => {
   const { email } = ctx.params;
   try {
-    // const user = await strapi.entityService.findMany(
-    //   "plugin::users-permissions.user",
-    //   {
-    //     fields: ["firstName", "lastName", "email", "phoneNumber"],
-    //     filters: {
-    //       email: {
-    //         $eq: email,
-    //       },
-    //     },
-    //     populate: {
-    //       role: {
-    //         fields: ["name", "id"],
-    //       },
-    //       userInfo: {
-    //         fields: [],
-    //         populate: {
-    //           profileImg: {
-    //             fields: ["url"],
-    //           },
-    //         },
-    //       },
-    //     },
-    //   }
-    // );
     const user = await strapi.query("plugin::users-permissions.user").findOne({
       where: { email },
-      select: ["firstName", "lastName", "email", "phoneNumber"],
+      select: ["email"],
       populate: {
         role: {
           select: ["name", "id"],
         },
         userInfo: {
-          select: [],
+          select: ["firstName", "lastName", "phoneNumber", "firebase"],
           populate: {
             profileImg: {
               select: ["url"],

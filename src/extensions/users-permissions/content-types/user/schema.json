@@ -65,18 +65,6 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "firstName": {
-      "type": "string"
-    },
-    "lastName": {
-      "type": "string"
-    },
-    "phoneNumber": {
-      "type": "string"
-    },
-    "firebase": {
-      "type": "string"
-    },
     "userInfo": {
       "type": "relation",
       "relation": "oneToOne",
