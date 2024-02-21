@@ -26,7 +26,16 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
 
             populate: {
               userInfo: {
-                fields: ["firstName", "lastName", "firebase", "phoneNumber"],
+                fields: [
+                  "firstName",
+                  "lastName",
+                  "firebase",
+                  "phoneNumber",
+                  "hours",
+                  "specialty",
+                  "about",
+                  "experience",
+                ],
                 populate: {
                   profileImg: {
                     fields: ["url"],
@@ -73,7 +82,6 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
           },
         },
       });
-      console.log(entry);
       return entry;
     } catch (error) {
       console.log(error);
