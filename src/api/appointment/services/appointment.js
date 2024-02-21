@@ -81,10 +81,16 @@ module.exports = createCoreService(
             sort: "createdAt:desc",
             populate: {
               client: {
-                fields: ["id", "firstName", "lastName", "email", "phoneNumber"],
+                fields: ["id", "email"],
                 populate: {
                   userInfo: {
-                    fields: ["hours", "specialty"],
+                    fields: [
+                      "hours",
+                      "specialty",
+                      "firstName",
+                      "lastName",
+                      "phoneNumber",
+                    ],
                     populate: {
                       profileImg: {
                         fields: ["url"],
@@ -94,10 +100,16 @@ module.exports = createCoreService(
                 },
               },
               specialist: {
-                fields: ["id", "firstName", "lastName", "email", "phoneNumber"],
+                fields: ["id", "email"],
                 populate: {
                   userInfo: {
-                    fields: ["hours", "specialty"],
+                    fields: [
+                      "hours",
+                      "specialty",
+                      "firstName",
+                      "lastName",
+                      "phoneNumber",
+                    ],
                   },
                 },
               },
@@ -121,7 +133,6 @@ module.exports = createCoreService(
             },
           }
         );
-        console.log("data", data);
         return data;
       } catch (error) {}
     },
