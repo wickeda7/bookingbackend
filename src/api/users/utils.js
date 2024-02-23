@@ -111,6 +111,8 @@ const getUser = async (ctx, next) => {
       where: { email },
       select: ["email"],
       populate: {
+        storeAdmin: true,
+        storeEmployee: true,
         role: {
           select: ["name", "id"],
         },
