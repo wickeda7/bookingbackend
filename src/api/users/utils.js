@@ -82,7 +82,7 @@ const register = async (ctx) => {
     confirmed: !settings.email_confirmation,
   };
   const user = await getService("user").add(newUser);
-  user.userInfo = { id: entryInfo.id, firebase };
+  user.userInfo = { id: entryInfo.id, firebase, phoneNumber };
   const sanitizedUser = await sanitizeUser(user, ctx);
 
   //sanitizedUser["roleId"] = role.id;
