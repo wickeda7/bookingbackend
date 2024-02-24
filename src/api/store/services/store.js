@@ -17,7 +17,7 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
             fields: ["url"],
           },
           employee: {
-            fields: ["email"],
+            fields: ["email", "createdAt"],
             filters: {
               blocked: {
                 $eq: false,
