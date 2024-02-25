@@ -71,6 +71,9 @@
     },
     "displayColor": {
       "type": "string"
+    },
+    "code": {
+      "type": "string"
     }
   }
 }
