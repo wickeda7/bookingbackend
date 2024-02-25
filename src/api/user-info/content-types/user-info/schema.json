@@ -68,6 +68,9 @@
     },
     "phoneNumber": {
       "type": "string"
+    },
+    "displayColor": {
+      "type": "string"
     }
   }
 }
