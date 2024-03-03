@@ -23,8 +23,6 @@ const register = async (ctx) => {
   let { email, password, phoneNumber, username, role, firebase } =
     ctx.request.body;
 
-  console.log("ctx.request.body", ctx.request.body);
-
   const pluginStore = await strapi.store({
     type: "plugin",
     name: "users-permissions",
