@@ -131,6 +131,7 @@ const getUser = async (ctx, next) => {
         },
       },
     });
+    console.log("user util", user);
     if (!user) {
       return false;
     }

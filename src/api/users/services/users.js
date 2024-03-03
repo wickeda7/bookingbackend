@@ -8,6 +8,7 @@ module.exports = () => ({
   getUser: async (ctx) => {
     try {
       const result = await getUser(ctx);
+      console.log("result service", result);
       if (result.error) {
         throw new Error(result.error);
       }
