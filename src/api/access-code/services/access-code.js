@@ -68,6 +68,9 @@ module.exports = createCoreService(
                 role: {
                   select: ["name", "id"],
                 },
+                storeEmployee: {
+                  select: ["id", "name"],
+                },
                 userInfo: {
                   select: ["firstName", "lastName", "phoneNumber", "firebase"],
                   populate: {

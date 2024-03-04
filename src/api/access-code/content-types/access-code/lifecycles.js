@@ -76,7 +76,7 @@ module.exports = {
     const {
       result: { id, phoneNumber, code, firstName, lastName },
     } = event;
-    if (lastName === "test") return;
+    if (lastName.toLowerCase() === "test") return;
     if (phoneNumber && code) {
       try {
         strapi.services["api::access-code.sms"].sendSms(
