@@ -81,7 +81,6 @@ module.exports = {
         strapi.services["api::access-code.sms"].sendSms(
           "1" + phoneNumber,
           code,
-          process.env.APP_URL,
           firstName,
           lastName
         );

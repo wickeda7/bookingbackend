@@ -46,20 +46,6 @@ module.exports = createCoreService(
           throw error;
         })
         .finally();
-      //   try {
-      //     const res = strapi.services["api::access-code.sms"].sendSms(
-      //       "1" + phoneNumber,
-      //       code,
-      //       process.env.APP_URL,
-      //       firstName,
-      //       lastName
-      //     );
-      //     console.log("res", res);
-      //     return res;
-      //   } catch (error) {
-      //     console.log("error", error);
-      //     // throw new Error(error);
-      //   }
     },
     getCode: async (ctx, next) => {
       const { id, code } = ctx.params;
