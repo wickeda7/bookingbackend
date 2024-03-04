@@ -77,17 +77,16 @@ module.exports = {
       result: { id, phoneNumber, code, firstName, lastName },
     } = event;
     if (phoneNumber && code) {
-      try {
-        strapi.services["api::access-code.sms"].sendSms(
-          "1" + phoneNumber,
-          code,
-          firstName,
-          lastName
-        );
-      } catch (error) {
-        console.log("error sms", error);
-      }
-
+      // try {
+      //   strapi.services["api::access-code.sms"].sendSms(
+      //     "1" + phoneNumber,
+      //     code,
+      //     firstName,
+      //     lastName
+      //   );
+      // } catch (error) {
+      //   console.log("error sms", error);
+      // }
       // Construct a message (see https://docs.expo.io/push-notifications/sending-notifications/)
     }
     // const socketMechant = await strapi.plugins[
