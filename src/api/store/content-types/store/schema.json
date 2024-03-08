@@ -125,6 +125,9 @@
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "favorites"
+    },
+    "timeslot": {
+      "type": "json"
     }
   }
 }

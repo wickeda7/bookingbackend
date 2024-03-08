@@ -123,6 +123,7 @@ module.exports = createCoreService(
                   "zip",
                   "phone",
                   "coordinate",
+                  "timeslot",
                 ],
                 populate: {
                   logo: {
