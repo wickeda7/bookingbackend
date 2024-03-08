@@ -59,6 +59,10 @@
     "canceled": {
       "type": "boolean",
       "default": false
+    },
+    "callBack": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
