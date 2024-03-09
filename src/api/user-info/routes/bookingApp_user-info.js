@@ -19,6 +19,15 @@ module.exports = {
         middlewares: [],
       },
     },
+    {
+      method: "POST",
+      path: "/user-infos/notificationToken",
+      handler: "user-info.notificationToken",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
     //   {
     //     method: "POST",
     //     path: "/orders/sendemail",

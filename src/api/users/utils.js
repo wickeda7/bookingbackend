@@ -115,7 +115,13 @@ const getUser = async (ctx, next) => {
           select: ["name", "id"],
         },
         userInfo: {
-          select: ["firstName", "lastName", "phoneNumber", "firebase"],
+          select: [
+            "firstName",
+            "lastName",
+            "phoneNumber",
+            "firebase",
+            "pushToken",
+          ],
           populate: {
             profileImg: {
               select: ["url"],
@@ -131,7 +137,7 @@ const getUser = async (ctx, next) => {
         },
       },
     });
-    console.log("user util", user);
+    //console.log("user util", user);
     if (!user) {
       return false;
     }

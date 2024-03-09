@@ -25,5 +25,18 @@ module.exports = createCoreController(
         );
       } catch (error) {}
     },
+    notificationToken: async (ctx, next) => {
+      try {
+        const data = await strapi
+          .service("api::user-info.user-info")
+          .notificationToken(ctx);
+        ctx.send(
+          {
+            data,
+          },
+          200
+        );
+      } catch (error) {}
+    },
   })
 );

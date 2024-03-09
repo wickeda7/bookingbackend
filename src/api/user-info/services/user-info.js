@@ -27,5 +27,28 @@ module.exports = createCoreService(
         throw new Error(error);
       }
     },
+    notificationToken: async (ctx, next) => {
+      const { id, pushToken } = ctx.request.body;
+
+      try {
+        // const entry = await strapi.query("user-info").findOne({
+        //   where: {
+        //     pushToken: pushToken,
+        //   },
+        // });
+        // console.log("entry", entry);
+        const res = await strapi.db.query("api::user-info.user-info").update({
+          where: {
+            id: id,
+          },
+          data: {
+            pushToken: pushToken,
+          },
+        });
+        return res;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   })
 );
