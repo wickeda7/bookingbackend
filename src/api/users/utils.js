@@ -112,7 +112,21 @@ const getUser = async (ctx, next) => {
         storeAdmin: {
           select: ["id", "name"],
           populate: {
-            employee: true,
+            employee: {
+              select: ["id"],
+              populate: {
+                userInfo: {
+                  select: [
+                    "firstName",
+                    "lastName",
+                    "displayColor",
+                    "id",
+                    "pushToken",
+                  ],
+                },
+                appointmentsSpecialist: true,
+              },
+            },
           },
         },
         storeEmployee: true,
