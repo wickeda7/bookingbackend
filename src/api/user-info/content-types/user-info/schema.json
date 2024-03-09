@@ -74,6 +74,9 @@
     },
     "code": {
       "type": "string"
+    },
+    "pushToken": {
+      "type": "string"
     }
   }
 }
