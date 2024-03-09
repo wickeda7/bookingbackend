@@ -90,6 +90,7 @@ module.exports = createCoreService(
                       "firstName",
                       "lastName",
                       "phoneNumber",
+                      "pushToken",
                     ],
                     populate: {
                       profileImg: {
@@ -109,6 +110,7 @@ module.exports = createCoreService(
                       "firstName",
                       "lastName",
                       "phoneNumber",
+                      "pushToken",
                     ],
                   },
                 },

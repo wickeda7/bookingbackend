@@ -8,7 +8,7 @@ const { createCoreService } = require("@strapi/strapi").factories;
 
 module.exports = createCoreService("api::store.store", ({ strapi }) => ({
   populate: async (ctx, next) => {
-    const { id } = ctx.params;
+    const id = ctx?.params ? ctx.params.id : ctx;
     try {
       const entry = await strapi.entityService.findOne("api::store.store", id, {
         fields: ["name"],
@@ -37,6 +37,7 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
                   "experience",
                   "displayColor",
                   "code",
+                  "pushToken",
                 ],
                 populate: {
                   profileImg: {

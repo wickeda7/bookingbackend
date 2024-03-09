@@ -73,71 +73,35 @@ module.exports = {
     //}
   },
   async afterCreate(event, options) {
-    const {
-      result: { id, phoneNumber, code, firstName, lastName },
-    } = event;
-    console.log("afterCreate", event);
-    // if (lastName.toLowerCase() === "test") return;
-    // if (phoneNumber && code) {
-    //   try {
-    //     strapi.services["api::access-code.sms"].sendSms(
-    //       "1" + phoneNumber,
-    //       code,
-    //       firstName,
-    //       lastName
-    //     );
-    //   } catch (error) {
-    //     console.log("error sms", error);
-    //   }
-
-    //   // Construct a message (see https://docs.expo.io/push-notifications/sending-notifications/)
-    // }
-    // const socketMechant = await strapi.plugins[
-    //   "rest-cache"
-    // ].services.cacheStore.get(merchant_id);
-    // console.log("socketId22 socketMechant", socketMechant);
-    // if (typeof order_content === "object") {
-    //   order = order_content;
-    // } else {
-    //   order = JSON.parse(order_content);
-    // }
-    // try {
-    //   await sendMerchantEmail(orderId, merchant_id, createdAt, order);
-    // } catch (error) {
-    //   console.log("error", error);
-    // }
-    // setTimeout(async () => {
-    //   const entry = await strapi.entityService.findOne("api::order.order", id, {
-    //     fields: ["itemContent"],
-    //     populate: ["user"],
-    //   });
-    //   try {
-    //     const socketuserId = await strapi.plugins[
-    //       "rest-cache"
-    //     ].services.cacheStore.get(`drivers_${merchant_id}`);
-    //     await sendCustomerEmail({ type: "new", resOrder: order, entry });
-    //     // @ts-ignore
-    //     strapi.ioServer
-    //       .to(socketMechant)
-    //       .emit("newOrder", { order: event.result, entry });
-    //     if (socketuserId) {
-    //       for (let i = 0; i < socketuserId.length; i++) {
-    //         const driverSocketId = await strapi.plugins[
-    //           "rest-cache"
-    //         ].services.cacheStore.get(socketuserId[i]);
-    //         if (driverSocketId) {
-    //           // @ts-ignore
-    //           strapi.ioServer.to(driverSocketId).emit("newOrder", {
-    //             order: event.result,
-    //             entry,
-    //           });
-    //           console.log("driverSocketId", socketuserId[i], driverSocketId);
-    //         }
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }, 5000);
+    const { result, params } = event;
+    delete result.updatedBy;
+    delete result.createdBy;
+    //console.log("afterCreate");
+    const storeId = result.storeID;
+    const data = await strapi.db.query("api::store.store").findOne({
+      select: ["name"],
+      where: { id: storeId },
+      populate: {
+        // @ts-ignore
+        admin: {
+          select: ["email"],
+          populate: {
+            userInfo: {
+              select: ["pushToken"],
+            },
+          },
+        },
+      },
+    });
+    const pushToken = data.admin[0].userInfo.pushToken;
+    try {
+      strapi.services["api::appointment.notification"].handlePushTokens(
+        pushToken,
+        result
+      );
+    } catch (error) {
+      console.log("error push notification", error);
+      throw error;
+    }
   },
 };

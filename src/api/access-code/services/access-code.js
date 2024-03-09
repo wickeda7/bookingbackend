@@ -72,7 +72,13 @@ module.exports = createCoreService(
                   select: ["id", "name"],
                 },
                 userInfo: {
-                  select: ["firstName", "lastName", "phoneNumber", "firebase"],
+                  select: [
+                    "firstName",
+                    "lastName",
+                    "phoneNumber",
+                    "firebase",
+                    "pushToken",
+                  ],
                   populate: {
                     profileImg: {
                       select: ["url"],
