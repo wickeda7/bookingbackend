@@ -124,7 +124,13 @@ const getUser = async (ctx, next) => {
                     "pushToken",
                   ],
                 },
-                appointmentsSpecialist: true,
+                appointmentsSpecialist: {
+                  filters: {
+                    date: {
+                      $eq: new Date().toISOString().split("T")[0],
+                    },
+                  },
+                },
               },
             },
           },
