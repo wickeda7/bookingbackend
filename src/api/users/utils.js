@@ -103,6 +103,14 @@ const register = async (ctx) => {
   //return { error: "No access token" };
 };
 const getUser = async (ctx, next) => {
+  console.log(
+    "ctx.params",
+    new Date().toLocaleDateString("fr-CA", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+  );
   const { email } = ctx.params;
   try {
     const user = await strapi.query("plugin::users-permissions.user").findOne({
