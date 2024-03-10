@@ -103,15 +103,6 @@ const register = async (ctx) => {
   //return { error: "No access token" };
 };
 const getUser = async (ctx, next) => {
-  const date = new Date();
-  const pacificTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const formattedDate = date.toLocaleDateString("fr-CA", {
-    timeZone: pacificTimeZone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-  console.log("ctx.params", formattedDate);
   const { email } = ctx.params;
   try {
     const user = await strapi.query("plugin::users-permissions.user").findOne({
@@ -130,6 +121,7 @@ const getUser = async (ctx, next) => {
                     "lastName",
                     "displayColor",
                     "id",
+                    "hours",
                     "pushToken",
                   ],
                 },
