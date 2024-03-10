@@ -133,17 +133,18 @@ const getUser = async (ctx, next) => {
                     "pushToken",
                   ],
                 },
-                appointmentsSpecialist: {
-                  filters: {
-                    date: {
-                      $eq: new Date().toLocaleDateString("fr-CA", {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                      }),
-                    },
-                  },
-                },
+                appointmentsSpecialist: true,
+                // appointmentsSpecialist: {
+                //   filters: {
+                //     date: {
+                //       $eq: new Date().toLocaleDateString("fr-CA", {
+                //         year: "numeric",
+                //         month: "2-digit",
+                //         day: "2-digit",
+                //       }),
+                //     },
+                //   },
+                // },
               },
             },
           },
