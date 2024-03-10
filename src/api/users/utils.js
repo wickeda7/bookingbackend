@@ -127,7 +127,11 @@ const getUser = async (ctx, next) => {
                 appointmentsSpecialist: {
                   filters: {
                     date: {
-                      $eq: new Date().toISOString().split("T")[0],
+                      $eq: new Date().toLocaleDateString("fr-CA", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      }),
                     },
                   },
                 },
