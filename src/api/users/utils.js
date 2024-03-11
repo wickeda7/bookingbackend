@@ -125,8 +125,42 @@ const getUser = async (ctx, next) => {
                     "pushToken",
                   ],
                 },
-                appointmentsSpecialist: true,
                 // appointmentsSpecialist: {
+                //   select: ["id", "date", "timeslot", "done"],
+                //   // filters: {
+                //   //   timeslot: {
+                //   //     $notNull: true,
+                //   //   },
+                //   populate: {
+                //     client: {
+                //       select: ["id"],
+                //       populate: {
+                //         userInfo: {
+                //           select: [
+                //             "id",
+                //             "firstName",
+                //             "lastName",
+                //             "phoneNumber",
+                //           ],
+                //           populate: {
+                //             profileImg: {
+                //               select: ["url"],
+                //             },
+                //           },
+                //         },
+                //       },
+                //     },
+                //   },
+                // },
+                // appointmentsSpecialist: {
+                // filters: {
+                //   timeslot: {
+                //     $notNull: true,
+                //   },
+                //   done: {
+                //     $eq: false,
+                //   },
+                // },
                 //   filters: {
                 //     date: {
                 //       $eq: new Date().toLocaleDateString("fr-CA", {
