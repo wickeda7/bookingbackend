@@ -5,7 +5,8 @@ module.exports = {
     const myNum = process.env.MYNUM;
     const twilioNum = process.env.TWILIONUM;
     const client = require("twilio")(accountSid, authToken);
-
+    console.log("phoneNumber", phoneNumber);
+    console.log("message", message);
     return client.messages
       .create({
         body: message,

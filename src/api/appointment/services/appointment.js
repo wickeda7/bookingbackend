@@ -43,6 +43,11 @@ module.exports = createCoreService(
           pushToken,
           { subject, message }
         );
+        if (phone) {
+          console.log("phone", phone);
+          strapi.services["api::appointment.sms"].sendSms("1" + phone, message);
+        }
+
         return { success: true };
       } catch (error) {}
     },
