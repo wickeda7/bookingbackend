@@ -38,10 +38,13 @@ module.exports = createCoreService(
     },
     message: async (ctx, next) => {
       const { subject, message, pushToken, phone } = ctx.request.body.data;
-      strapi.services["api::appointment.notification"].handlePushTokens(
-        pushToken,
-        { subject, message }
-      );
+      try {
+        strapi.services["api::appointment.notification"].handlePushTokens(
+          pushToken,
+          { subject, message }
+        );
+        return { success: true };
+      } catch (error) {}
     },
     cancel: async (ctx, next) => {
       const { id } = ctx.params;
