@@ -3,12 +3,20 @@ const { push } = require("../../../../config/middlewares");
 const expo = new Expo();
 module.exports = {
   handlePushTokens(token, data) {
+    console.log("token", token);
+    console.log("data", data);
     let pushTokens = [];
     pushTokens.push(token);
     let notifications = [];
     //console.log("data", data);
     //console.log("psuhTokens", pushTokens);
-    const type = data.timeslot ? "Appointment" : "Walk-in";
+    let type = data.timeslot ? "Appointment" : "Walk-in";
+    let body = `You have a new service.`;
+    if (data.subject) {
+      type = data.subject;
+      body = data.message;
+      data = {};
+    }
 
     for (let pushToken of pushTokens) {
       if (!Expo.isExpoPushToken(pushToken)) {
@@ -20,7 +28,7 @@ module.exports = {
         to: pushToken,
         sound: "default",
         title: type,
-        body: `You have a new service.`,
+        body: body,
         data: data,
       });
     }

@@ -51,5 +51,19 @@ module.exports = createCoreController(
         );
       } catch (error) {}
     },
+    message: async (ctx, next) => {
+      // const { id } = ctx.params;
+      try {
+        const data = await strapi
+          .service("api::appointment.appointment")
+          .message(ctx);
+        ctx.send(
+          {
+            data,
+          },
+          200
+        );
+      } catch (error) {}
+    },
   })
 );

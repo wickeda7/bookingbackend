@@ -15,5 +15,10 @@ module.exports = {
       path: "/appointments/cancel/:id", //api/appointments/cancel/:id
       handler: "appointment.cancel",
     },
+    {
+      method: "POST",
+      path: "/appointments/message", //api/appointments/cancel/:id
+      handler: "appointment.message",
+    },
   ],
 };
