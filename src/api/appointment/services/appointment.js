@@ -70,6 +70,8 @@ module.exports = createCoreService(
     user: async (ctx, next) => {
       const { id, done, type } = ctx.params;
       let field = "";
+      let confirmed = "";
+      console.log("type", type);
       if (type === "specialist") {
         field = "specialistID";
       } else if (type === "store") {
@@ -90,6 +92,9 @@ module.exports = createCoreService(
               },
               done: {
                 $eq: done,
+              },
+              confirmed: {
+                $eq: confirmed,
               },
             },
             sort: "createdAt:desc",
