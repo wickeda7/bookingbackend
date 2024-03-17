@@ -20,5 +20,15 @@ module.exports = {
       path: "/appointments/message", //api/appointments/cancel/:id
       handler: "appointment.message",
     },
+    {
+      method: "PUT",
+      path: "/appointments/booking/:id", //api/appointments/cancel/:id
+      handler: "appointment.putBooking",
+    },
+    {
+      method: "PUT",
+      path: "/appointments/updatebooking/:id", //api/appointments/cancel/:id
+      handler: "appointment.updatebooking",
+    },
   ],
 };

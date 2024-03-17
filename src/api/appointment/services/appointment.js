@@ -36,6 +36,167 @@ module.exports = createCoreService(
         return data;
       } catch (error) {}
     },
+    updatebooking: async (ctx, next) => {
+      const { id } = ctx.params;
+      const { service, type, staff } = ctx.request.body.data;
+      let numSpecialistArr = [];
+      const specialistId = service.specialistId;
+      console.log("specialistId", id);
+      return { test: "test" };
+    },
+    putBooking: async (ctx, next) => {
+      const { id } = ctx.params;
+      const { service, type, staff } = ctx.request.body.data;
+      let numSpecialistArr = [];
+      const specialistId = service.specialistId;
+      const entry = await strapi.entityService.findOne(
+        "api::appointment.appointment",
+        id,
+        {
+          populate: {
+            specialists: {
+              fields: ["id"],
+              populate: {
+                userInfo: true,
+              },
+            },
+            client: {
+              fields: ["id"],
+              populate: {
+                userInfo: true,
+              },
+            },
+          },
+        }
+      );
+      if (entry) {
+        const {
+          id: bookingId,
+          confirmed,
+          services,
+          timeslot,
+          date,
+          userID,
+          storeID,
+          specialistID,
+          specialists,
+          callBack,
+          client,
+        } = entry;
+        let newServ = [];
+        let updateData = {};
+        let servicesP = [];
+        servicesP =
+          typeof services === "string" ? JSON.parse(services) : services;
+
+        if (type === "remove") {
+          const id = service.id;
+          newServ = servicesP.map((item) => {
+            if (item.id === id) {
+              return {
+                ...item,
+                specialist: null,
+                status: "pending",
+                specialistID: null,
+              };
+            } else {
+              return item;
+            }
+          });
+          numSpecialistArr = newServ.filter(
+            (obj) => obj.specialistID === specialistId
+          );
+          const numSpecialist = newServ.filter(
+            (obj) => obj.specialist !== null
+          );
+
+          if (numSpecialist.length === 0) {
+            updateData = {
+              services: JSON.stringify(newServ),
+              specialists: null,
+              specialistID: null,
+            };
+          } else if (numSpecialistArr.length === 0) {
+            updateData = {
+              services: JSON.stringify(newServ),
+              specialists: numSpecialist[0].specialist,
+              specialistID: numSpecialist[0].specialist.id,
+            };
+          } else {
+            updateData = {
+              services: JSON.stringify(newServ),
+            };
+          }
+        } else {
+          newServ = servicesP.reduce((acc, item) => {
+            const {
+              id,
+              name,
+              price,
+              description,
+              priceOption,
+              specialist,
+              status,
+            } = item;
+            const newStatus = !specialist ? "working" : status;
+            const newSpecialist = !specialist ? staff : specialist;
+            return [
+              ...acc,
+              {
+                id,
+                name,
+                price,
+                description,
+                priceOption,
+                specialist: newSpecialist,
+                status: newStatus,
+                callBack: callBack,
+                client: client,
+                storeID: storeID,
+                date: date,
+                bookingId: bookingId,
+                specialistID: newSpecialist.id,
+                timeslot: timeslot,
+                userID: userID,
+              },
+            ];
+          }, []);
+          updateData = {
+            services: JSON.stringify(newServ),
+            specialists: staff.id,
+            specialistID: staff.id,
+          };
+        }
+        try {
+          let data = await strapi.entityService.update(
+            "api::appointment.appointment",
+            id,
+            {
+              data: updateData,
+              populate: {
+                specialists: {
+                  fields: ["id"],
+                  populate: {
+                    userInfo: true,
+                  },
+                },
+                client: {
+                  fields: ["id"],
+                  populate: {
+                    userInfo: true,
+                  },
+                },
+              },
+            }
+          );
+          data["type"] = type;
+          if (numSpecialistArr.length === 0 && type === "remove") {
+            data["removeId"] = specialistId;
+          }
+          return data;
+        } catch (error) {}
+      }
+    },
     message: async (ctx, next) => {
       const {
         subject,

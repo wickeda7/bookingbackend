@@ -65,5 +65,33 @@ module.exports = createCoreController(
         );
       } catch (error) {}
     },
+    putBooking: async (ctx, next) => {
+      // const { id } = ctx.params;
+      try {
+        const data = await strapi
+          .service("api::appointment.appointment")
+          .putBooking(ctx);
+        ctx.send(
+          {
+            data,
+          },
+          200
+        );
+      } catch (error) {}
+    },
+    updatebooking: async (ctx, next) => {
+      // const { id } = ctx.params;
+      try {
+        const data = await strapi
+          .service("api::appointment.appointment")
+          .updatebooking(ctx);
+        ctx.send(
+          {
+            data,
+          },
+          200
+        );
+      } catch (error) {}
+    },
   })
 );
