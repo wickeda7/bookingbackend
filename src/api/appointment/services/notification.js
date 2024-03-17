@@ -15,7 +15,7 @@ module.exports = {
     if (data.subject) {
       type = data.subject;
       body = data.message;
-      data = {};
+      data = { id: data.id, timeslot: data.timeslot, date: data.date };
     }
 
     for (let pushToken of pushTokens) {
