@@ -47,8 +47,9 @@ module.exports = createCoreService(
     putBooking: async (ctx, next) => {
       const { id } = ctx.params;
       const { service, type, staff } = ctx.request.body.data;
+
       let numSpecialistArr = [];
-      const specialistId = service.specialistId;
+      const specialistId = service.specialist.id;
       const entry = await strapi.entityService.findOne(
         "api::appointment.appointment",
         id,
@@ -91,18 +92,21 @@ module.exports = createCoreService(
 
         if (type === "remove") {
           const id = service.id;
+          let removedItem = {};
           newServ = servicesP.map((item) => {
             if (item.id === id) {
-              return {
+              removedItem = {
                 ...item,
                 specialist: null,
                 status: "pending",
                 specialistID: null,
               };
+              return removedItem;
             } else {
               return item;
             }
           });
+
           numSpecialistArr = newServ.filter(
             (obj) => obj.specialistID === specialistId
           );
@@ -140,6 +144,7 @@ module.exports = createCoreService(
             } = item;
             const newStatus = !specialist ? "working" : status;
             const newSpecialist = !specialist ? staff : specialist;
+
             return [
               ...acc,
               {
@@ -189,6 +194,19 @@ module.exports = createCoreService(
               },
             }
           );
+          const pushToken = service.specialist.userInfo.pushToken;
+          console.log("removedItem ", bookingId, pushToken, service.specialist);
+          if (pushToken) {
+            const clientMessage = `There is an update on your booking.`;
+            strapi.services["api::appointment.notification"].handlePushTokens(
+              pushToken,
+              {
+                subject: "Booking Update",
+                message: clientMessage,
+                data: { bookingId, timeslot },
+              }
+            );
+          }
           data["type"] = type;
           if (numSpecialistArr.length === 0 && type === "remove") {
             data["removeId"] = specialistId;
