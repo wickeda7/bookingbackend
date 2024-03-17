@@ -208,7 +208,7 @@ module.exports = createCoreService(
               {
                 subject: "Booking Update",
                 message: clientMessage,
-                data,
+                result: data,
               }
             );
           }
