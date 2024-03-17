@@ -107,11 +107,11 @@
       "target": "api::store.store",
       "mappedBy": "user_favorites"
     },
-    "appointmentsSpecialist": {
+    "appointmentsSpecialists": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "oneToMany",
       "target": "api::appointment.appointment",
-      "inversedBy": "specialists"
+      "mappedBy": "specialist"
     }
   }
 }

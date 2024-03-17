@@ -23,11 +23,11 @@
     "services": {
       "type": "json"
     },
-    "specialists": {
+    "specialist": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "mappedBy": "appointmentsSpecialist"
+      "inversedBy": "appointmentsSpecialists"
     },
     "client": {
       "type": "relation",
