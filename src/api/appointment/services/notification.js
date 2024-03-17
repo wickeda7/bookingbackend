@@ -38,7 +38,7 @@ module.exports = {
       for (let chunk of chunks) {
         try {
           let receipts = await expo.sendPushNotificationsAsync(chunk);
-          console.log(receipts);
+          console.log("receipts", receipts);
         } catch (error) {
           console.error(error);
           throw error;
