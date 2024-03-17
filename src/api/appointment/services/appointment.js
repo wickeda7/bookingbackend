@@ -366,7 +366,7 @@ module.exports = createCoreService(
                   },
                 },
               },
-              specialist: {
+              specialists: {
                 fields: ["id", "email"],
                 populate: {
                   userInfo: {
