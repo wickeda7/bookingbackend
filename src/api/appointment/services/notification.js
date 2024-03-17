@@ -15,7 +15,12 @@ module.exports = {
     if (data.subject) {
       type = data.subject;
       body = data.message;
-      data = { id: data.id, timeslot: data.timeslot, date: data.date };
+      data = {
+        id: data.result.id,
+        timeslot: data.result.timeslot,
+        date: data.result.date,
+        services: data.result.services,
+      };
     }
 
     for (let pushToken of pushTokens) {
