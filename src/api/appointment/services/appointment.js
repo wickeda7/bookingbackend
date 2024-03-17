@@ -37,14 +37,94 @@ module.exports = createCoreService(
       } catch (error) {}
     },
     message: async (ctx, next) => {
-      const { subject, message, pushToken, phone } = ctx.request.body.data;
+      const {
+        subject,
+        message,
+        pushToken,
+        phone,
+        client,
+        specialist,
+        date,
+        timeslot,
+        bookingId,
+        storeID,
+      } = ctx.request.body.data;
+
       try {
-        strapi.services["api::appointment.notification"].handlePushTokens(
-          pushToken,
-          { subject, message }
-        );
-        if (phone) {
-          strapi.services["api::appointment.sms"].sendSms("1" + phone, message);
+        if (timeslot) {
+          //confirmation for appointment
+          const { hours } = specialist.hours.find(
+            (item) => +item.id === timeslot
+          );
+          const data = await strapi.db.query("api::store.store").findOne({
+            select: ["name"],
+            where: { id: storeID },
+          });
+
+          const specialistName =
+            specialist.firstName + " " + specialist.lastName;
+          const specialistPhone = specialist.phoneNumber;
+          const specialistPushToken = specialist.pushToken;
+          const clientName = client.firstName + " " + client.lastName;
+          const clientPhone = client.phoneNumber;
+          const clientPushToken = client.pushToken;
+          const storeName = data.name;
+          const time = hours.split("-")[0];
+
+          const entry = await strapi.entityService.update(
+            "api::appointment.appointment",
+            bookingId,
+            {
+              data: {
+                confirmed: true,
+              },
+            }
+          );
+          if (entry) {
+            // console.log(
+            //   "specialistName",
+            //   specialistName,
+            //   specialistPhone,
+            //   specialistPushToken
+            // );
+            //send notification to specialist
+            const specialistMessage = `You have a new appointment with ${clientName}  on ${date} at ${time} has been confirmed.`;
+            strapi.services["api::appointment.notification"].handlePushTokens(
+              specialistPushToken,
+              { subject, specialistMessage }
+            );
+            if (specialistPhone) {
+              strapi.services["api::appointment.sms"].sendSms(
+                "1" + specialistPhone,
+                specialistMessage
+              );
+            }
+            const clientMessage = `Your appointment with ${specialistName} at ${storeName} on ${date} at ${time} has been confirmed.`;
+            strapi.services["api::appointment.notification"].handlePushTokens(
+              clientPushToken,
+              { subject, clientMessage }
+            );
+            if (clientPhone) {
+              strapi.services["api::appointment.sms"].sendSms(
+                "1" + clientPhone,
+                clientMessage
+              );
+            }
+            console.log("specialistMessage", specialistMessage);
+            console.log("clientMessage", clientMessage);
+          }
+        } else {
+          //notification for call back
+          strapi.services["api::appointment.notification"].handlePushTokens(
+            pushToken,
+            { subject, message }
+          );
+          if (phone) {
+            strapi.services["api::appointment.sms"].sendSms(
+              "1" + phone,
+              message
+            );
+          }
         }
 
         return { success: true };
