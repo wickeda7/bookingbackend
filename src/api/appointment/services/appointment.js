@@ -196,6 +196,11 @@ module.exports = createCoreService(
           );
           const pushToken = service.specialist.userInfo.pushToken;
           console.log("removedItem ", bookingId, pushToken, service.specialist);
+
+          data["type"] = type;
+          if (numSpecialistArr.length === 0 && type === "remove") {
+            data["removeId"] = specialistId;
+          }
           if (pushToken) {
             const clientMessage = `There is an update on your booking.`;
             strapi.services["api::appointment.notification"].handlePushTokens(
@@ -203,13 +208,9 @@ module.exports = createCoreService(
               {
                 subject: "Booking Update",
                 message: clientMessage,
-                data: { bookingId, timeslot },
+                data,
               }
             );
-          }
-          data["type"] = type;
-          if (numSpecialistArr.length === 0 && type === "remove") {
-            data["removeId"] = specialistId;
           }
           return data;
         } catch (error) {}
