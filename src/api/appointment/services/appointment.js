@@ -48,6 +48,7 @@ module.exports = createCoreService(
         timeslot,
         bookingId,
         storeID,
+        sendText,
       } = ctx.request.body.data;
 
       try {
@@ -81,19 +82,13 @@ module.exports = createCoreService(
             }
           );
           if (entry) {
-            // console.log(
-            //   "specialistName",
-            //   specialistName,
-            //   specialistPhone,
-            //   specialistPushToken
-            // );
             //send notification to specialist
             const specialistMessage = `You have a new appointment with ${clientName}  on ${date} at ${time} has been confirmed.`;
             strapi.services["api::appointment.notification"].handlePushTokens(
               specialistPushToken,
               { subject, specialistMessage }
             );
-            if (specialistPhone) {
+            if (specialistPhone && sendText) {
               strapi.services["api::appointment.sms"].sendSms(
                 "1" + specialistPhone,
                 specialistMessage
@@ -104,14 +99,12 @@ module.exports = createCoreService(
               clientPushToken,
               { subject, clientMessage }
             );
-            if (clientPhone) {
+            if (clientPhone && sendText) {
               strapi.services["api::appointment.sms"].sendSms(
                 "1" + clientPhone,
                 clientMessage
               );
             }
-            console.log("specialistMessage", specialistMessage);
-            console.log("clientMessage", clientMessage);
           }
         } else {
           //notification for call back
