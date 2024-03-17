@@ -101,17 +101,17 @@
       "target": "api::appointment.appointment",
       "mappedBy": "client"
     },
-    "appointmentsSpecialist": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::appointment.appointment",
-      "mappedBy": "specialist"
-    },
     "favorites": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::store.store",
       "mappedBy": "user_favorites"
+    },
+    "appointmentsSpecialist": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::appointment.appointment",
+      "inversedBy": "specialists"
     }
   }
 }
