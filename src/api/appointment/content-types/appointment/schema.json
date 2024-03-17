@@ -23,9 +23,9 @@
     "services": {
       "type": "json"
     },
-    "specialist": {
+    "specialists": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "appointmentsSpecialists"
     },

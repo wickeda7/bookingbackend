@@ -109,9 +109,9 @@
     },
     "appointmentsSpecialists": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::appointment.appointment",
-      "mappedBy": "specialist"
+      "mappedBy": "specialists"
     }
   }
 }
