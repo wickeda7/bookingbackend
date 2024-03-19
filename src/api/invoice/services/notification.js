@@ -3,13 +3,16 @@ const { push } = require("../../../../config/middlewares");
 const expo = new Expo();
 module.exports = {
   handlePushTokens(token, data) {
-    console.log("token", token);
-    console.log("data", data);
+    // console.log("token", token);
+    // console.log("data", data);
+    // console.log("token", typeof token);
     let pushTokens = [];
-    pushTokens.push(token);
+    if (typeof token === "string") {
+      pushTokens.push(token);
+    } else {
+      pushTokens = token;
+    }
     let notifications = [];
-    //console.log("data", data);
-    //console.log("psuhTokens", pushTokens);
     const title = data.subject;
     delete data.subject;
     let body = `Invoice Completed by ${data.createdby}`;
