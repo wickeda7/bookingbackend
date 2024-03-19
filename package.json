@@ -19,6 +19,7 @@
     "expo-server-sdk": "^3.7.0",
     "pg": "^8.11.3",
     "pg-connection-string": "^2.6.2",
+    "socket.io": "^4.7.5",
     "twilio": "^4.23.0"
   },
   "author": {
