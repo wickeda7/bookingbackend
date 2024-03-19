@@ -34,6 +34,8 @@ module.exports = {
       });
       strapi.ioServer.use((socket, next) => {
         const userid = socket.handshake.auth.userid;
+        console.log("userid", userid);
+        console.log("socket.handshake.auth", socket);
         if (!userid) {
           return next(new Error("invalid merchantId"));
         }
