@@ -21,14 +21,14 @@ module.exports = {
       handler: "appointment.message",
     },
     {
-      method: "PUT",
-      path: "/appointments/booking/:id", //api/appointments/cancel/:id
-      handler: "appointment.putBooking",
+      method: "POST",
+      path: "/appointments/notify", //api/appointments/cancel/:id
+      handler: "appointment.notify",
     },
     {
       method: "PUT",
-      path: "/appointments/updatebooking/:id", //api/appointments/cancel/:id
-      handler: "appointment.updatebooking",
+      path: "/appointments/booking/:id", //api/appointments/cancel/:id
+      handler: "appointment.putBooking",
     },
   ],
 };

@@ -87,7 +87,7 @@ module.exports = {
           select: ["email"],
           populate: {
             userInfo: {
-              select: ["pushToken"],
+              select: ["pushToken", "socketId"],
             },
           },
         },

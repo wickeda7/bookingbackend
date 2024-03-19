@@ -36,14 +36,7 @@ module.exports = createCoreService(
         return data;
       } catch (error) {}
     },
-    updatebooking: async (ctx, next) => {
-      const { id } = ctx.params;
-      const { service, type, staff } = ctx.request.body.data;
-      let numSpecialistArr = [];
-      const specialistId = service.specialistId;
-      console.log("specialistId", id);
-      return { test: "test" };
-    },
+
     putBooking: async (ctx, next) => {
       const { id } = ctx.params;
       const { service, type, staff } = ctx.request.body.data;
@@ -216,6 +209,46 @@ module.exports = createCoreService(
         } catch (error) {}
       }
     },
+    notify: async (ctx, next) => {
+      const { data } = ctx.request.body;
+      const { storeID } = data[0];
+
+      console.log("item", storeID);
+      try {
+        const entry = await strapi.entityService.findOne(
+          "api::store.store",
+          storeID,
+          {
+            fields: ["id", "name"],
+            populate: {
+              admin: {
+                fields: ["id", "email"],
+                populate: {
+                  userInfo: {
+                    fields: ["id", "socketId"],
+                  },
+                },
+              },
+            },
+          }
+        );
+        if (!entry) throw new Error("No store found");
+        const { admin } = entry;
+        const socketArr = admin.reduce((acc, item) => {
+          if (item.userInfo.socketId !== null) {
+            return [...acc, item.userInfo.socketId];
+          }
+          return acc;
+        }, []);
+        if (socketArr.length > 0) {
+          socketArr.forEach((item) => {
+            // @ts-ignore
+            strapi.ioServer.to(item).emit("bookingChanged", data);
+          });
+        }
+        return { success: true };
+      } catch (error) {}
+    },
     message: async (ctx, next) => {
       const {
         subject,
@@ -358,6 +391,7 @@ module.exports = createCoreService(
                       "lastName",
                       "phoneNumber",
                       "pushToken",
+                      "socketId",
                     ],
                     populate: {
                       profileImg: {
@@ -378,6 +412,7 @@ module.exports = createCoreService(
                       "lastName",
                       "phoneNumber",
                       "pushToken",
+                      "socketId",
                     ],
                   },
                 },

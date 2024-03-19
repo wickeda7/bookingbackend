@@ -18,9 +18,6 @@ module.exports = {
    */
   bootstrap({ strapi }) {
     process.nextTick(() => {
-      strapi.log.info("Hello world!");
-      strapi.log.info(HOST_URL);
-      strapi.log.info("sdfsfsdf");
       // @ts-ignore
       strapi.ioServer = require("socket.io")(strapi.server.httpServer, {
         cors: {
@@ -33,10 +30,18 @@ module.exports = {
         },
       });
       strapi.ioServer.use((socket, next) => {
-        const userid = socket.handshake.auth.userid;
-        const userInfoId = socket.handshake.auth.userInfo;
-        console.log("userid", userid);
-        console.log("userInfoId", userInfoId);
+        const userid = socket.handshake.auth.userId;
+        const userInfoid = socket.handshake.auth.userInfoId;
+        try {
+          strapi.services["api::user-info.user-info"].updateSocketId({
+            userInfoid,
+            socketId: socket.id,
+          });
+        } catch (error) {
+          throw error;
+        }
+        console.log("a user connected", userid);
+        console.log("userInfoId", userInfoid);
         console.log("socket.id", socket.id);
         if (!userid) {
           return next(new Error("invalid merchantId"));
@@ -45,8 +50,6 @@ module.exports = {
         next();
       });
       strapi.ioServer.on("connection", (socket) => {
-        console.log("a user connected", socket.userid);
-        console.log("socket.id", socket.id);
         socket.on("disconnect", () => {
           console.log("user disconnected", socket.userid);
         });

@@ -78,6 +78,7 @@ module.exports = createCoreService(
                     "phoneNumber",
                     "firebase",
                     "pushToken",
+                    "socketId",
                   ],
                   populate: {
                     profileImg: {

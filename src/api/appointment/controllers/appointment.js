@@ -65,12 +65,12 @@ module.exports = createCoreController(
         );
       } catch (error) {}
     },
-    putBooking: async (ctx, next) => {
+    notify: async (ctx, next) => {
       // const { id } = ctx.params;
       try {
         const data = await strapi
           .service("api::appointment.appointment")
-          .putBooking(ctx);
+          .notify(ctx);
         ctx.send(
           {
             data,
@@ -79,12 +79,12 @@ module.exports = createCoreController(
         );
       } catch (error) {}
     },
-    updatebooking: async (ctx, next) => {
+    putBooking: async (ctx, next) => {
       // const { id } = ctx.params;
       try {
         const data = await strapi
           .service("api::appointment.appointment")
-          .updatebooking(ctx);
+          .putBooking(ctx);
         ctx.send(
           {
             data,

@@ -50,5 +50,18 @@ module.exports = createCoreService(
         throw new Error(error);
       }
     },
+    updateSocketId: async (ctx, next) => {
+      const { userInfoid, socketId } = ctx;
+      try {
+        const res = await strapi.db.query("api::user-info.user-info").update({
+          where: {
+            id: userInfoid,
+          },
+          data: {
+            socketId: socketId,
+          },
+        });
+      } catch (error) {}
+    },
   })
 );

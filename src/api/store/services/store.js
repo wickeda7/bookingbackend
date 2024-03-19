@@ -38,6 +38,7 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
                   "displayColor",
                   "code",
                   "pushToken",
+                  "socketId",
                 ],
                 populate: {
                   profileImg: {
