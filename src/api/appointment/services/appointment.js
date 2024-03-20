@@ -346,8 +346,63 @@ module.exports = createCoreService(
             data: {
               canceled: true,
             },
+            populate: {
+              specialists: {
+                fields: ["id"],
+                populate: {
+                  userInfo: {
+                    fields: ["pushToken", "socketId"],
+                  },
+                },
+              },
+              store: {
+                fields: ["id"],
+                populate: {
+                  admin: {
+                    fields: ["id"],
+                    populate: {
+                      userInfo: {
+                        fields: ["pushToken", "socketId"],
+                      },
+                    },
+                  },
+                },
+              },
+            },
           }
         );
+        const timeslot = data.timeslot;
+        const bookingId = data.id;
+        let nessageData = {
+          title: "Booking Canceled",
+          message: `Your booking has been canceled`,
+          data: { bookingId, timeslot },
+        };
+        const specialistTokens = data.specialists.reduce((acc, curr) => {
+          if (curr.userInfo.pushToken) {
+            acc.push(curr.userInfo.pushToken);
+          }
+          return acc;
+        }, []);
+        const storeTokens = data.store.admin.reduce((acc, curr) => {
+          if (curr.userInfo.pushToken) {
+            acc.push(curr.userInfo.pushToken);
+          }
+          return acc;
+        }, []);
+        if (specialistTokens.length > 0) {
+          strapi.services["api::appointment.notification"].handlePushTokens(
+            specialistTokens,
+            nessageData
+          );
+        }
+        if (storeTokens.length > 0) {
+          strapi.services["api::appointment.notification"].handlePushTokens(
+            storeTokens,
+            nessageData
+          );
+        }
+
         return data;
       } catch (error) {
         console.log("error", error);

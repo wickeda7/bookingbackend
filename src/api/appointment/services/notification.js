@@ -3,25 +3,38 @@ const { push } = require("../../../../config/middlewares");
 const expo = new Expo();
 module.exports = {
   handlePushTokens(token, data) {
-    console.log("token", token);
-    console.log("data", data);
+    // console.log("token", token);
+    // console.log("data", data);
     let pushTokens = [];
+    let title = "";
+    let body = "";
+    let sendData = {};
     pushTokens.push(token);
     let notifications = [];
-    //console.log("data", data);
-    //console.log("psuhTokens", pushTokens);
-    let type = data.timeslot ? "Appointment" : "Walk-in";
-    let body = `You have a new service.`;
-    if (data.subject) {
-      type = data.subject;
+    if (typeof token === "string") {
+      pushTokens.push(token);
+      title = data.timeslot ? "Appointment" : "Walk-in";
+      body = `You have a new service.`;
+      if (data.subject) {
+        title = data.subject;
+        body = data.message;
+        sendData = {
+          id: data.result.id,
+          timeslot: data.result.timeslot,
+          date: data.result.date,
+          services: data.result.services,
+        };
+      }
+    } else {
+      pushTokens = token;
+      title = data.title;
       body = data.message;
-      data = {
-        id: data.result.id,
-        timeslot: data.result.timeslot,
-        date: data.result.date,
-        services: data.result.services,
-      };
+      sendData = data.data;
     }
+    console.log("pushTokens", pushTokens);
+    console.log("title", title);
+    console.log("body", body);
+    console.log("sendData", sendData);
 
     for (let pushToken of pushTokens) {
       if (!Expo.isExpoPushToken(pushToken)) {
@@ -32,9 +45,9 @@ module.exports = {
       notifications.push({
         to: pushToken,
         sound: "default",
-        title: type,
-        body: body,
-        data: data,
+        title,
+        body,
+        data: sendData,
       });
     }
     //@ts-ignore
