@@ -72,5 +72,14 @@ module.exports = {
         }
       );
     }
+    const entry = await strapi.entityService.update(
+      "api::appointment.appointment",
+      appointment,
+      {
+        data: {
+          done: true,
+        },
+      }
+    );
   },
 };
