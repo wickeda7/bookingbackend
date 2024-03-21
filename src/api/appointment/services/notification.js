@@ -3,8 +3,8 @@ const { push } = require("../../../../config/middlewares");
 const expo = new Expo();
 module.exports = {
   handlePushTokens(token, data) {
-    // console.log("token", token);
-    // console.log("data", data);
+    console.log("token", token);
+    console.log("data", data);
     let pushTokens = [];
     let title = "";
     let body = "";
