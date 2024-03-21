@@ -376,7 +376,7 @@ module.exports = createCoreService(
         let nessageData = {
           title: "Booking Canceled",
           message: `Your booking has been canceled`,
-          data: { bookingId, timeslot },
+          data: { bookingId, timeslot, type: "cancel" },
         };
         const specialistTokens = data.specialists.reduce((acc, curr) => {
           if (curr.userInfo.pushToken) {
