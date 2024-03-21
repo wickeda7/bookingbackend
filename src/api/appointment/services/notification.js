@@ -5,6 +5,7 @@ module.exports = {
   handlePushTokens(token, data) {
     console.log("token", token);
     console.log("data", data);
+    console.log("token", typeof token);
     let pushTokens = [];
     let title = "";
     let body = "";

@@ -73,10 +73,11 @@ module.exports = {
     //}
   },
   async afterCreate(event, options) {
-    const { result, params } = event;
+    let { result, params } = event;
     delete result.updatedBy;
     delete result.createdBy;
     //console.log("afterCreate");
+    result["type"] = "newBooking";
     const storeId = result.storeID;
     const data = await strapi.db.query("api::store.store").findOne({
       select: ["name"],
@@ -93,11 +94,22 @@ module.exports = {
         },
       },
     });
-    const pushToken = data.admin[0].userInfo.pushToken;
+    const storeTokens = data.admin.reduce((acc, curr) => {
+      if (curr.userInfo.pushToken) {
+        acc.push(curr.userInfo.pushToken);
+      }
+      return acc;
+    }, []);
     try {
+      const title = result.timeslot ? "Appointment" : "Walk-in";
+      const messageData = {
+        title: `New ${title} `,
+        message: `You have a new service.`,
+        data: result,
+      };
       strapi.services["api::appointment.notification"].handlePushTokens(
-        pushToken,
-        result
+        storeTokens,
+        messageData
       );
     } catch (error) {
       console.log("error push notification", error);

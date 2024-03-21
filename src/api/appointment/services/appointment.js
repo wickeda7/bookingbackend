@@ -373,7 +373,7 @@ module.exports = createCoreService(
         );
         const timeslot = data.timeslot;
         const bookingId = data.id;
-        let nessageData = {
+        let messageData = {
           title: "Booking Canceled",
           message: `Your booking has been canceled`,
           data: { bookingId, timeslot, type: "cancel" },
@@ -393,13 +393,13 @@ module.exports = createCoreService(
         if (specialistTokens.length > 0) {
           strapi.services["api::appointment.notification"].handlePushTokens(
             specialistTokens,
-            nessageData
+            messageData
           );
         }
         if (storeTokens.length > 0) {
           strapi.services["api::appointment.notification"].handlePushTokens(
             storeTokens,
-            nessageData
+            messageData
           );
         }
 
