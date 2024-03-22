@@ -17,7 +17,7 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
             fields: ["url"],
           },
           employee: {
-            fields: ["email", "createdAt"],
+            fields: ["email", "createdAt", "id"],
             filters: {
               blocked: {
                 $eq: false,
@@ -25,6 +25,13 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
             },
 
             populate: {
+              appointmentsSpecialists: {
+                filters: {
+                  done: {
+                    $eq: false,
+                  },
+                },
+              },
               userInfo: {
                 fields: [
                   "firstName",

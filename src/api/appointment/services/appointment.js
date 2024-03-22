@@ -23,7 +23,7 @@ module.exports = createCoreService(
             },
             fields: ["id"],
             populate: {
-              appointmentsSpecialist: {
+              appointmentsSpecialists: {
                 filters: {
                   done: {
                     $eq: false,
