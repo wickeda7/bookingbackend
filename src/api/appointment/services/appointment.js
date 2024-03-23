@@ -199,7 +199,7 @@ module.exports = createCoreService(
             strapi.services["api::appointment.notification"].handlePushTokens(
               pushToken,
               {
-                subject: "Booking Update",
+                title: "Booking Update",
                 message: clientMessage,
                 result: data,
               }
@@ -263,7 +263,6 @@ module.exports = createCoreService(
         storeID,
         sendText,
       } = ctx.request.body.data;
-
       try {
         if (timeslot) {
           //confirmation for appointment
@@ -299,7 +298,7 @@ module.exports = createCoreService(
             const specialistMessage = `You have a new appointment with ${clientName}  on ${date} at ${time} has been confirmed.`;
             strapi.services["api::appointment.notification"].handlePushTokens(
               specialistPushToken,
-              { subject, specialistMessage }
+              { title: subject, message: specialistMessage }
             );
             if (specialistPhone && sendText) {
               strapi.services["api::appointment.sms"].sendSms(
@@ -310,7 +309,7 @@ module.exports = createCoreService(
             const clientMessage = `Your appointment with ${specialistName} at ${storeName} on ${date} at ${time} has been confirmed.`;
             strapi.services["api::appointment.notification"].handlePushTokens(
               clientPushToken,
-              { subject, clientMessage }
+              { title: subject, message: clientMessage }
             );
             if (clientPhone && sendText) {
               strapi.services["api::appointment.sms"].sendSms(
@@ -323,7 +322,7 @@ module.exports = createCoreService(
           //notification for call back
           strapi.services["api::appointment.notification"].handlePushTokens(
             pushToken,
-            { subject, message }
+            { title: subject, message }
           );
           if (phone) {
             strapi.services["api::appointment.sms"].sendSms(
@@ -334,7 +333,9 @@ module.exports = createCoreService(
         }
 
         return { success: true };
-      } catch (error) {}
+      } catch (error) {
+        console.log("error", error);
+      }
     },
     cancel: async (ctx, next) => {
       const { id } = ctx.params;
