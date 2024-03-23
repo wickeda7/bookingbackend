@@ -293,7 +293,6 @@ module.exports = createCoreService(
               },
             }
           );
-          console.log("bookingId", bookingId);
           if (entry) {
             //send notification to specialist
             const specialistMessage = `You have a new appointment with ${clientName}  on ${date} at ${time} has been confirmed.`;
@@ -302,7 +301,7 @@ module.exports = createCoreService(
               {
                 title: subject,
                 message: specialistMessage,
-                data: { bookingId },
+                data: { bookingId, type: "confirmed" },
               }
             );
             if (specialistPhone && sendText) {
@@ -314,7 +313,11 @@ module.exports = createCoreService(
             const clientMessage = `Your appointment with ${specialistName} at ${storeName} on ${date} at ${time} has been confirmed.`;
             strapi.services["api::appointment.notification"].handlePushTokens(
               clientPushToken,
-              { title: subject, message: clientMessage, data: { bookingId } }
+              {
+                title: subject,
+                message: clientMessage,
+                data: { bookingId, type: "confirmed" },
+              }
             );
             if (clientPhone && sendText) {
               strapi.services["api::appointment.sms"].sendSms(
