@@ -47,7 +47,7 @@ module.exports = {
         sound: "default",
         title,
         body,
-        data: sendData,
+        data: JSON.stringify(sendData),
       });
     }
     //@ts-ignore
