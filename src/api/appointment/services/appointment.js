@@ -40,7 +40,9 @@ module.exports = createCoreService(
     putBooking: async (ctx, next) => {
       const { id } = ctx.params;
       const { service, type, staff } = ctx.request.body.data;
-
+      console.log("service", service);
+      console.log("type", type);
+      console.log("staff", staff);
       let numSpecialistArr = [];
       const specialistId = service.specialist.id;
       const entry = await strapi.entityService.findOne(
@@ -188,23 +190,26 @@ module.exports = createCoreService(
             }
           );
           const pushToken = service.specialist.userInfo.pushToken;
-
-          data["type"] = type;
+          const tokenData = {};
+          tokenData["type"] = type;
           if (numSpecialistArr.length === 0 && type === "remove") {
-            data["removeId"] = specialistId;
+            tokenData["removeId"] = specialistId;
           }
           if (pushToken) {
             console.log("pushToken", pushToken);
+            tokenData["bookingId"] = id;
+            console.log("tokenData.............", tokenData);
             const clientMessage = `There is an update on your booking.`;
             strapi.services["api::appointment.notification"].handlePushTokens(
               pushToken,
               {
                 title: "Booking Update",
                 message: clientMessage,
-                result: data,
+                data: tokenData,
               }
             );
           }
+
           return data;
         } catch (error) {}
       }

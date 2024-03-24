@@ -3,9 +3,9 @@ const { push } = require("../../../../config/middlewares");
 const expo = new Expo();
 module.exports = {
   handlePushTokens(token, data) {
-    // console.log("token", token);
-    // console.log("data", data);
-    // console.log("token", typeof token);
+    console.log("token", token);
+    console.log("data", data);
+    console.log("token", typeof token);
     let pushTokens = [];
     let title = "";
     let body = "";
@@ -13,28 +13,34 @@ module.exports = {
     let notifications = [];
     if (typeof token === "string") {
       pushTokens.push(token);
-      title = data.title;
-      body = data.message;
-      if (data.result) {
-        sendData = {
-          id: data.result.id,
-          timeslot: data.result.timeslot,
-          date: data.result.date,
-          services: data.result.services,
-        };
-      } else {
-        sendData = data.data;
-      }
+      // title = data.title;
+      // body = data.message;
+      // sendData = data.data;
+      // if (data.result) {
+      //   sendData = {
+      //     id: data.result.id,
+      //     type: data.result.timeslot,
+      //     date: data.result.date,
+      //     services: data.result.services,
+      //   };
+      // } else {
+      //   sendData = data.data;
+      // }
     } else {
       pushTokens = token;
-      title = data.title;
-      body = data.message;
-      sendData = data.data;
+      // title = data.title;
+      // body = data.message;
+      // sendData = data.data;
     }
-    console.log("pushTokens", pushTokens);
-    console.log("title", title);
-    console.log("body", body);
+    title = data.title;
+    body = data.message;
+    sendData = data.data;
+    // console.log("pushTokens", pushTokens);
+    // console.log("title", title);
+    // console.log("body", body);
     console.log("sendData", sendData);
+    // console.log("data", typeof sendData);
+    // console.log("JSON.stringify", JSON.stringify(sendData));
 
     for (let pushToken of pushTokens) {
       if (!Expo.isExpoPushToken(pushToken)) {
@@ -47,7 +53,7 @@ module.exports = {
         sound: "default",
         title,
         body,
-        data: JSON.stringify(sendData),
+        data: sendData,
       });
     }
     //@ts-ignore
