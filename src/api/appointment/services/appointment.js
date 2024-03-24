@@ -40,9 +40,6 @@ module.exports = createCoreService(
     putBooking: async (ctx, next) => {
       const { id } = ctx.params;
       const { service, type, staff } = ctx.request.body.data;
-      console.log("service", service);
-      console.log("type", type);
-      console.log("staff", staff);
       let numSpecialistArr = [];
       const specialistId = service.specialist.id;
       const entry = await strapi.entityService.findOne(
@@ -68,14 +65,11 @@ module.exports = createCoreService(
       if (entry) {
         const {
           id: bookingId,
-          confirmed,
           services,
           timeslot,
           date,
           userID,
           storeID,
-          specialistID,
-          specialists,
           callBack,
           client,
         } = entry;
@@ -194,6 +188,7 @@ module.exports = createCoreService(
           tokenData["type"] = type;
           if (numSpecialistArr.length === 0 && type === "remove") {
             tokenData["removeId"] = specialistId;
+            data["removeId"] = specialistId;
           }
           if (pushToken) {
             console.log("pushToken", pushToken);
