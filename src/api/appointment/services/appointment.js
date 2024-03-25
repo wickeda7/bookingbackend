@@ -40,8 +40,6 @@ module.exports = createCoreService(
     putBooking: async (ctx, next) => {
       const { id } = ctx.params;
       const { service, type, staff } = ctx.request.body.data;
-      let numSpecialistArr = [];
-      const specialistId = service.specialist.id;
       const entry = await strapi.entityService.findOne(
         "api::appointment.appointment",
         id,
@@ -72,17 +70,23 @@ module.exports = createCoreService(
           storeID,
           callBack,
           client,
+          specialists,
         } = entry;
         let newServ = [];
         let updateData = {};
         let servicesP = [];
+        let removeId = null;
+        const specialistIdArr = specialists.reduce((acc, item) => {
+          acc.push(item.id);
+          return acc;
+        }, []);
         servicesP =
           typeof services === "string" ? JSON.parse(services) : services;
 
         if (type === "remove") {
           const id = service.id;
-          let removedItem = {};
           newServ = servicesP.map((item) => {
+            let removedItem = {};
             if (item.id === id) {
               removedItem = {
                 ...item,
@@ -95,31 +99,6 @@ module.exports = createCoreService(
               return item;
             }
           });
-
-          numSpecialistArr = newServ.filter(
-            (obj) => obj.specialistID === specialistId
-          );
-          const numSpecialist = newServ.filter(
-            (obj) => obj.specialist !== null
-          );
-
-          if (numSpecialist.length === 0) {
-            updateData = {
-              services: JSON.stringify(newServ),
-              specialists: null,
-              specialistID: null,
-            };
-          } else if (numSpecialistArr.length === 0) {
-            updateData = {
-              services: JSON.stringify(newServ),
-              specialists: numSpecialist[0].specialist,
-              specialistID: numSpecialist[0].specialist.id,
-            };
-          } else {
-            updateData = {
-              services: JSON.stringify(newServ),
-            };
-          }
         } else {
           newServ = servicesP.reduce((acc, item) => {
             const {
@@ -155,12 +134,28 @@ module.exports = createCoreService(
               },
             ];
           }, []);
-          updateData = {
-            services: JSON.stringify(newServ),
-            specialists: staff.id,
-            specialistID: staff.id,
-          };
         }
+        const newServArr = newServ.reduce((acc, item) => {
+          if (item.specialist) {
+            if (!acc.includes(item.specialist.id)) {
+              acc.push(item.specialist.id);
+            }
+          }
+          return acc;
+        }, []);
+        const diff = specialistIdArr.filter((d) => !newServArr.includes(d));
+
+        if (type === "remove") {
+          if (diff.length > 0) {
+            removeId = diff[0];
+          }
+        }
+        updateData = {
+          services: JSON.stringify(newServ),
+          specialists: newServArr,
+          specialistID: newServArr[0] ? newServArr[0] : null,
+        };
+
         try {
           let data = await strapi.entityService.update(
             "api::appointment.appointment",
@@ -186,14 +181,12 @@ module.exports = createCoreService(
           const pushToken = service.specialist.userInfo.pushToken;
           const tokenData = {};
           tokenData["type"] = type;
-          if (numSpecialistArr.length === 0 && type === "remove") {
-            tokenData["removeId"] = specialistId;
-            data["removeId"] = specialistId;
+          if (removeId) {
+            tokenData["removeId"] = removeId;
+            data["removeId"] = removeId;
           }
           if (pushToken) {
-            console.log("pushToken", pushToken);
             tokenData["bookingId"] = id;
-            console.log("tokenData.............", tokenData);
             const clientMessage = `There is an update on your booking.`;
             strapi.services["api::appointment.notification"].handlePushTokens(
               pushToken,
@@ -419,22 +412,29 @@ module.exports = createCoreService(
     },
     user: async (ctx, next) => {
       const { id, done, type } = ctx.params;
-      let field = "";
+      let filters = {};
+      let filterSpecialist = {};
+
       if (type === "specialist") {
-        field = "specialistID";
-      } else if (type === "store") {
-        field = "storeID";
+        filterSpecialist = { id: { $eq: id } };
       } else {
-        field = "userID";
+        filterSpecialist = {};
       }
+
+      if (type === "store") {
+        filters = { storeID: { $eq: id } };
+      } else if (type === "user") {
+        filters = { userID: { $eq: id } };
+      } else {
+        filters = {};
+      }
+
       try {
         const data = await strapi.entityService.findMany(
           "api::appointment.appointment",
           {
             filters: {
-              [field]: {
-                $eq: id,
-              },
+              ...filters,
               canceled: {
                 $eq: false,
               },
@@ -467,6 +467,9 @@ module.exports = createCoreService(
               },
               specialists: {
                 fields: ["id", "email"],
+                filters: {
+                  ...filterSpecialist,
+                },
                 populate: {
                   userInfo: {
                     fields: [
