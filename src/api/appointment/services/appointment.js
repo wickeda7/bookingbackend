@@ -243,40 +243,11 @@ module.exports = createCoreService(
       } catch (error) {}
     },
     message: async (ctx, next) => {
-      const {
-        subject,
-        message,
-        pushToken,
-        phone,
-        client,
-        specialist,
-        date,
-        timeslot,
-        bookingId,
-        storeID,
-        sendText,
-      } = ctx.request.body.data;
+      const { subject, message, pushToken, phone, sendText, bookingId } =
+        ctx.request.body.data;
       try {
-        if (timeslot) {
+        if (bookingId) {
           //confirmation for appointment
-          const { hours } = specialist.hours.find(
-            (item) => +item.id === timeslot
-          );
-          const data = await strapi.db.query("api::store.store").findOne({
-            select: ["name"],
-            where: { id: storeID },
-          });
-
-          const specialistName =
-            specialist.firstName + " " + specialist.lastName;
-          const specialistPhone = specialist.phoneNumber;
-          const specialistPushToken = specialist.pushToken;
-          const clientName = client.firstName + " " + client.lastName;
-          const clientPhone = client.phoneNumber;
-          const clientPushToken = client.pushToken;
-          const storeName = data.name;
-          const time = hours.split("-")[0];
-
           const entry = await strapi.entityService.update(
             "api::appointment.appointment",
             bookingId,
@@ -284,46 +255,79 @@ module.exports = createCoreService(
               data: {
                 confirmed: true,
               },
+              populate: {
+                specialists: {
+                  fields: ["id"],
+                  populate: {
+                    userInfo: true,
+                  },
+                },
+                client: {
+                  fields: ["id"],
+                  populate: {
+                    userInfo: true,
+                  },
+                },
+                store: {
+                  fields: ["name"],
+                },
+              },
             }
           );
-          if (entry) {
-            //send notification to specialist
-            const specialistMessage = `You have a new appointment with ${clientName}  on ${date} at ${time} has been confirmed.`;
-            if (specialistPushToken) {
-              strapi.services["api::appointment.notification"].handlePushTokens(
-                specialistPushToken,
-                {
-                  title: subject,
-                  message: specialistMessage,
-                  data: { bookingId, type: "confirmed" },
-                }
-              );
-            }
+          if (!entry) throw new Error("No booking found");
+          const { date, timeslot, client, specialists, store } = entry;
+          const clientInfo = client.userInfo;
+          const specialistInfo = specialists[0].userInfo;
+          const { hours } = specialistInfo.hours.find(
+            (item) => +item.id === timeslot
+          );
+          const specialistName =
+            specialistInfo.firstName + " " + specialistInfo.lastName;
+          const specialistPhone = specialistInfo.phoneNumber;
+          const specialistPushToken = specialistInfo.pushToken;
+          const clientName = clientInfo.firstName + " " + clientInfo.lastName;
+          const clientPhone = clientInfo.phoneNumber;
+          const clientPushToken = clientInfo.pushToken;
+          const storeName = store.name;
+          const time = hours.split("-")[0];
+          const dateArr = date.split("-");
+          const specialistMessage = `You have a new appointment with ${clientName}  on ${dateArr[1]}-${dateArr[2]}-${dateArr[0]} at ${time} has been confirmed.`;
 
-            if (specialistPhone && sendText) {
-              strapi.services["api::appointment.sms"].sendSms(
-                "1" + specialistPhone,
-                specialistMessage
-              );
-            }
-            const clientMessage = `Your appointment with ${specialistName} at ${storeName} on ${date} at ${time} has been confirmed.`;
-            if (clientPushToken) {
-              strapi.services["api::appointment.notification"].handlePushTokens(
-                clientPushToken,
-                {
-                  title: subject,
-                  message: clientMessage,
-                  data: { bookingId, type: "confirmed" },
-                }
-              );
-            }
+          if (specialistPushToken) {
+            strapi.services["api::appointment.notification"].handlePushTokens(
+              specialistPushToken,
+              {
+                title: subject,
+                message: specialistMessage,
+                data: { bookingId, type: "confirmed" },
+              }
+            );
+          }
 
-            if (clientPhone && sendText) {
-              strapi.services["api::appointment.sms"].sendSms(
-                "1" + clientPhone,
-                clientMessage
-              );
-            }
+          if (specialistPhone && sendText) {
+            strapi.services["api::appointment.sms"].sendSms(
+              "1" + specialistPhone,
+              specialistMessage
+            );
+          }
+
+          const clientMessage = `Your appointment with ${specialistName} at ${storeName} on ${date} at ${time} has been confirmed.`;
+          if (clientPushToken) {
+            strapi.services["api::appointment.notification"].handlePushTokens(
+              clientPushToken,
+              {
+                title: subject,
+                message: clientMessage,
+                data: { bookingId, type: "confirmed" },
+              }
+            );
+          }
+
+          if (clientPhone && sendText) {
+            strapi.services["api::appointment.sms"].sendSms(
+              "1" + clientPhone,
+              clientMessage
+            );
           }
         } else {
           //notification for call back
