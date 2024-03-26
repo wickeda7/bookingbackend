@@ -23,7 +23,8 @@ module.exports = {
         cors: {
           // cors setup
           // "Allow-Origin": HOST_URL,
-          origin: [HOST_URL, "http://localhost:3000"],
+          // origin: [HOST_URL, "http://localhost:3000"],
+          origin: "*",
           methods: ["GET", "POST"],
           allowedHeaders: ["my-custom-header"],
           credentials: true,
