@@ -4,7 +4,7 @@ const expo = new Expo();
 module.exports = {
   handlePushTokens(token, data) {
     console.log("token", token);
-    console.log("data", data);
+    //console.log("data", data);
     console.log("token", typeof token);
     let pushTokens = [];
     let title = "";
@@ -19,6 +19,8 @@ module.exports = {
     title = data.title;
     body = data.message;
     sendData = data.data;
+
+    console.log("sendData", sendData);
     for (let pushToken of pushTokens) {
       if (!Expo.isExpoPushToken(pushToken)) {
         console.error(`Push token ${pushToken} is not a valid Expo push token`);
