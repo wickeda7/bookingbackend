@@ -30,6 +30,9 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
                   done: {
                     $eq: false,
                   },
+                  canceled: {
+                    $eq: false,
+                  },
                 },
               },
               userInfo: {
