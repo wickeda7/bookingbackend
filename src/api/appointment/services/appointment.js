@@ -289,14 +289,17 @@ module.exports = createCoreService(
           if (entry) {
             //send notification to specialist
             const specialistMessage = `You have a new appointment with ${clientName}  on ${date} at ${time} has been confirmed.`;
-            strapi.services["api::appointment.notification"].handlePushTokens(
-              specialistPushToken,
-              {
-                title: subject,
-                message: specialistMessage,
-                data: { bookingId, type: "confirmed" },
-              }
-            );
+            if (specialistPushToken) {
+              strapi.services["api::appointment.notification"].handlePushTokens(
+                specialistPushToken,
+                {
+                  title: subject,
+                  message: specialistMessage,
+                  data: { bookingId, type: "confirmed" },
+                }
+              );
+            }
+
             if (specialistPhone && sendText) {
               strapi.services["api::appointment.sms"].sendSms(
                 "1" + specialistPhone,
@@ -304,14 +307,17 @@ module.exports = createCoreService(
               );
             }
             const clientMessage = `Your appointment with ${specialistName} at ${storeName} on ${date} at ${time} has been confirmed.`;
-            strapi.services["api::appointment.notification"].handlePushTokens(
-              clientPushToken,
-              {
-                title: subject,
-                message: clientMessage,
-                data: { bookingId, type: "confirmed" },
-              }
-            );
+            if (clientPushToken) {
+              strapi.services["api::appointment.notification"].handlePushTokens(
+                clientPushToken,
+                {
+                  title: subject,
+                  message: clientMessage,
+                  data: { bookingId, type: "confirmed" },
+                }
+              );
+            }
+
             if (clientPhone && sendText) {
               strapi.services["api::appointment.sms"].sendSms(
                 "1" + clientPhone,
