@@ -204,7 +204,8 @@ module.exports = createCoreService(
     },
     notify: async (ctx, next) => {
       const { data } = ctx.request.body;
-      const { storeID } = data[0];
+      console.log("data", data);
+      const { storeID } = data;
 
       console.log("item", storeID);
       try {
