@@ -40,6 +40,11 @@ module.exports = createCoreService(
     putBooking: async (ctx, next) => {
       const { id } = ctx.params;
       const { service, type, staff } = ctx.request.body.data;
+      // console.log("service", service);
+      // console.log("type", type);
+      // console.log("staff", staff);
+      // console.log("ctx.request.body.data", ctx.request.body.data);
+      // return;
       const entry = await strapi.entityService.findOne(
         "api::appointment.appointment",
         id,
@@ -99,6 +104,21 @@ module.exports = createCoreService(
               return item;
             }
           });
+        } else if (type === "splitService") {
+          const serviceId = +service.id / 10;
+          servicesP = servicesP.map((item) => {
+            if (item.id === serviceId) {
+              const ogPrice = item.price * 100;
+              const splitPrice = service.price * 100;
+              return {
+                ...item,
+                price: (ogPrice - splitPrice) / 100,
+              };
+            } else {
+              return item;
+            }
+          });
+          newServ = [...servicesP, service];
         } else {
           newServ = servicesP.reduce((acc, item) => {
             const {
@@ -178,26 +198,27 @@ module.exports = createCoreService(
               },
             }
           );
-          const pushToken = service.specialist.userInfo.pushToken;
-          const tokenData = {};
-          tokenData["type"] = type;
-          if (removeId) {
-            tokenData["removeId"] = removeId;
-            data["removeId"] = removeId;
+          if (type !== "splitService") {
+            const pushToken = service.specialist.userInfo.pushToken;
+            const tokenData = {};
+            tokenData["type"] = type;
+            if (removeId) {
+              tokenData["removeId"] = removeId;
+              data["removeId"] = removeId;
+            }
+            if (pushToken) {
+              tokenData["bookingId"] = id;
+              const clientMessage = `There is an update on your booking.`;
+              strapi.services["api::appointment.notification"].handlePushTokens(
+                pushToken,
+                {
+                  title: "Booking Update",
+                  message: clientMessage,
+                  data: tokenData,
+                }
+              );
+            }
           }
-          if (pushToken) {
-            tokenData["bookingId"] = id;
-            const clientMessage = `There is an update on your booking.`;
-            strapi.services["api::appointment.notification"].handlePushTokens(
-              pushToken,
-              {
-                title: "Booking Update",
-                message: clientMessage,
-                data: tokenData,
-              }
-            );
-          }
-
           return data;
         } catch (error) {}
       }
