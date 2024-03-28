@@ -27,17 +27,19 @@ module.exports = {
             },
           },
         });
-      strapi.services["api::invoice.notification"].handlePushTokens(
-        data.userInfo.pushToken,
-        {
-          subject: "Invoice Completed",
-          specialist,
-          type,
-          store,
-          appointment,
-          createdby,
-        }
-      );
+      if (data.userInfo.pushToken) {
+        strapi.services["api::invoice.notification"].handlePushTokens(
+          data.userInfo.pushToken,
+          {
+            subject: "Invoice Completed",
+            specialist,
+            type,
+            store,
+            appointment,
+            createdby,
+          }
+        );
+      }
     } else {
       const data = await strapi.db.query("api::store.store").findOne({
         select: ["name"],
@@ -60,17 +62,19 @@ module.exports = {
         }
         return acc;
       }, []);
-      strapi.services["api::invoice.notification"].handlePushTokens(
-        pushTokens,
-        {
-          subject: "Invoice Completed",
-          specialist,
-          type,
-          store,
-          appointment,
-          createdby,
-        }
-      );
+      if (pushTokens.length) {
+        strapi.services["api::invoice.notification"].handlePushTokens(
+          pushTokens,
+          {
+            subject: "Invoice Completed",
+            specialist,
+            type,
+            store,
+            appointment,
+            createdby,
+          }
+        );
+      }
     }
     const entry = await strapi.entityService.update(
       "api::appointment.appointment",
