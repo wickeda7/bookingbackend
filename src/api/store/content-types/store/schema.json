@@ -128,6 +128,15 @@
     },
     "timeslot": {
       "type": "json"
+    },
+    "email": {
+      "type": "string"
+    },
+    "totalDeduct": {
+      "type": "string"
+    },
+    "tipDeduct": {
+      "type": "string"
     }
   }
 }

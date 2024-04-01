@@ -124,6 +124,9 @@ const getUser = async (ctx, next) => {
                     "hours",
                     "pushToken",
                     "socketId",
+                    "totalDeduct",
+                    "tipDeduct",
+                    "perDay",
                   ],
                 },
                 // appointmentsSpecialist: {
@@ -188,6 +191,9 @@ const getUser = async (ctx, next) => {
             "firebase",
             "pushToken",
             "socketId",
+            "totalDeduct",
+            "tipDeduct",
+            "perDay",
           ],
           populate: {
             profileImg: {

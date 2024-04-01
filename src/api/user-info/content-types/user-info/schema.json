@@ -80,6 +80,15 @@
     },
     "socketId": {
       "type": "string"
+    },
+    "totalDeduct": {
+      "type": "string"
+    },
+    "tipDeduct": {
+      "type": "string"
+    },
+    "perDay": {
+      "type": "decimal"
     }
   }
 }

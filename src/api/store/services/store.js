@@ -7,6 +7,71 @@
 const { createCoreService } = require("@strapi/strapi").factories;
 
 module.exports = createCoreService("api::store.store", ({ strapi }) => ({
+  settings: async (ctx, next) => {
+    const id = ctx?.params ? ctx.params.id : ctx;
+    try {
+      const entry = await strapi.entityService.findOne("api::store.store", id, {
+        populate: {
+          images: {
+            fields: ["url"],
+          },
+          logo: {
+            fields: ["url"],
+          },
+          employee: {
+            fields: ["email", "id"],
+            filters: {
+              blocked: {
+                $eq: false,
+              },
+            },
+            populate: {
+              userInfo: {
+                fields: [
+                  "firstName",
+                  "lastName",
+                  "firebase",
+                  "phoneNumber",
+                  "hours",
+                  "specialty",
+                  "about",
+                  "experience",
+                  "displayColor",
+                  "code",
+                  "pushToken",
+                  "socketId",
+                  "totalDeduct",
+                  "tipDeduct",
+                  "perDay",
+                ],
+                populate: {
+                  profileImg: {
+                    fields: ["url"],
+                  },
+                  images: {
+                    fields: ["url"],
+                  },
+                },
+              },
+            },
+          },
+          services: {
+            populate: {
+              items: true,
+              sub_services: {
+                populate: {
+                  items: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      return entry;
+    } catch (error) {
+      console.log("error", error);
+    }
+  },
   populate: async (ctx, next) => {
     const id = ctx?.params ? ctx.params.id : ctx;
     try {
@@ -49,6 +114,9 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
                   "code",
                   "pushToken",
                   "socketId",
+                  "totalDeduct",
+                  "tipDeduct",
+                  "perDay",
                 ],
                 populate: {
                   profileImg: {

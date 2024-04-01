@@ -30,4 +30,15 @@ module.exports = createCoreController("api::store.store", ({ strapi }) => ({
       );
     } catch (error) {}
   },
+  settings: async (ctx, next) => {
+    try {
+      const data = await strapi.service("api::store.store").settings(ctx);
+      ctx.send(
+        {
+          data,
+        },
+        200
+      );
+    } catch (error) {}
+  },
 }));

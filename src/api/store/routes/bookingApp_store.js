@@ -10,6 +10,11 @@ module.exports = {
       path: "/stores/populate/:id",
       handler: "store.populate",
     },
+    {
+      method: "GET",
+      path: "/stores/settings/:id",
+      handler: "store.settings",
+    },
     //   {
     //     method: "POST",
     //     path: "/orders",
