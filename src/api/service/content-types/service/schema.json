@@ -25,12 +25,6 @@
     "sort": {
       "type": "integer"
     },
-    "items": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::item.item",
-      "mappedBy": "service"
-    },
     "store": {
       "type": "relation",
       "relation": "manyToOne",
@@ -41,6 +35,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::sub-service.sub-service",
+      "mappedBy": "service"
+    },
+    "items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::item.item",
       "mappedBy": "service"
     }
   }
