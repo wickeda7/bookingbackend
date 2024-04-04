@@ -137,6 +137,12 @@
     },
     "tipDeduct": {
       "type": "string"
+    },
+    "payperiod": {
+      "type": "string"
+    },
+    "payperiod_date": {
+      "type": "string"
     }
   }
 }
