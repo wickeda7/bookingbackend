@@ -110,7 +110,7 @@ const getUser = async (ctx, next) => {
       select: ["email"],
       populate: {
         storeAdmin: {
-          select: ["id", "name"],
+          select: ["id", "name", "totalDeduct", "tipDeduct"],
           populate: {
             employee: {
               select: ["id"],
