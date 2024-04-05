@@ -46,6 +46,9 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::appointment.appointment"
+    },
+    "testCreatedAt": {
+      "type": "date"
     }
   }
 }
