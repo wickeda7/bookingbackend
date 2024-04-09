@@ -17,6 +17,9 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
         },
         populate: {
           specialist: true,
+          payroll: {
+            select: ["id"],
+          },
         },
       });
       const model = {};
