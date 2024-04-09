@@ -49,6 +49,16 @@
     },
     "testCreatedAt": {
       "type": "date"
+    },
+    "addedToPayroll": {
+      "type": "boolean",
+      "default": false
+    },
+    "payroll": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::payroll.payroll",
+      "inversedBy": "invoices"
     }
   }
 }

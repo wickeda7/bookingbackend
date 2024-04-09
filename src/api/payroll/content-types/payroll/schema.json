@@ -1,0 +1,83 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payrolls",
+  "info": {
+    "singularName": "payroll",
+    "pluralName": "payrolls",
+    "displayName": "payroll",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "startDate": {
+      "type": "date"
+    },
+    "endDate": {
+      "type": "date"
+    },
+    "commissionType": {
+      "type": "string"
+    },
+    "totalTip": {
+      "type": "decimal"
+    },
+    "totalAmount": {
+      "type": "decimal"
+    },
+    "deductAmount": {
+      "type": "decimal"
+    },
+    "deductPercent": {
+      "type": "string"
+    },
+    "payPerDay": {
+      "type": "decimal"
+    },
+    "finalTipAmount": {
+      "type": "integer"
+    },
+    "tipPercent": {
+      "type": "string"
+    },
+    "payrollData": {
+      "type": "json"
+    },
+    "confirmed": {
+      "type": "boolean",
+      "default": false
+    },
+    "paid": {
+      "type": "boolean",
+      "default": false
+    },
+    "paidDate": {
+      "type": "date"
+    },
+    "signature": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "storeId": {
+      "type": "integer"
+    },
+    "specialistId": {
+      "type": "integer"
+    },
+    "invoices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::invoice.invoice",
+      "mappedBy": "payroll"
+    }
+  }
+}
