@@ -37,7 +37,7 @@
       "type": "decimal"
     },
     "finalTipAmount": {
-      "type": "integer"
+      "type": "decimal"
     },
     "tipPercent": {
       "type": "string"
