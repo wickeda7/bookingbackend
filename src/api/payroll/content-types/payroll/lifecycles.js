@@ -20,6 +20,7 @@ module.exports = {
         {
           subject: "Payroll",
           message: "You have a new payroll.",
+          data: { specialistId },
         }
       );
     }
