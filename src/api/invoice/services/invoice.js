@@ -19,6 +19,9 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           specialist: true,
           payroll: {
             select: ["id"],
+            populate: {
+              signature: true,
+            },
           },
         },
       });
