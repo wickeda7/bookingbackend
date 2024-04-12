@@ -38,7 +38,7 @@ module.exports = createCoreService("api::payroll.payroll", ({ strapi }) => ({
       const messageData = {
         title: `New Confirmation`,
         message: ``,
-        data: { payrollId, userId, storeId },
+        data: { payrollId, userId, storeId, type: "PayrollConfirmation" },
       };
       strapi.services["api::appointment.notification"].handlePushTokens(
         storeTokens,
