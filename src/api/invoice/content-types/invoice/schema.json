@@ -62,6 +62,15 @@
     },
     "tips": {
       "type": "decimal"
+    },
+    "cashAmount": {
+      "type": "decimal"
+    },
+    "cardAmount": {
+      "type": "decimal"
+    },
+    "fees": {
+      "type": "decimal"
     }
   }
 }
