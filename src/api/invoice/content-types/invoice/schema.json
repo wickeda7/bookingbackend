@@ -71,6 +71,18 @@
     },
     "fees": {
       "type": "decimal"
+    },
+    "invoice": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::invoice.invoice",
+      "inversedBy": "invoiceSplit"
+    },
+    "invoiceSplit": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::invoice.invoice",
+      "inversedBy": "invoice"
     }
   }
 }
