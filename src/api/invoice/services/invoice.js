@@ -119,7 +119,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           store: 1,
           subtotal: 51,
           total: 55,
-          type: "appointment",
+          type: "walkin",
           testCreatedAt: new Date(),
         },
         {
@@ -151,7 +151,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           store: 1,
           subtotal: 78,
           total: 82,
-          type: "appointment",
+          type: "walkin",
           testCreatedAt: new Date(),
         },
         {
