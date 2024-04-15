@@ -189,7 +189,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
       ];
 
       const entry = await strapi.entityService.create("api::invoice.invoice", {
-        data: data[temp],
+        data: data[temp - 1],
       });
 
       return entry;
