@@ -146,6 +146,10 @@
     },
     "amountPerTurn": {
       "type": "decimal"
+    },
+    "setTurns": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
