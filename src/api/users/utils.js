@@ -117,6 +117,8 @@ const getUser = async (ctx, next) => {
             "tipDeduct",
             "payperiod",
             "payperiod_date",
+            "amountPerTurn",
+            "setTurns",
           ],
           populate: {
             employee: {
