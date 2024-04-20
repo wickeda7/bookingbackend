@@ -12,6 +12,7 @@ const { sanitize } = utils;
 const { ApplicationError, ValidationError } = utils.errors;
 
 const admin = require("../../../config/admin");
+const store = require("../store/controllers/store");
 
 const sanitizeUser = (user, ctx) => {
   const { auth } = ctx.state;
@@ -124,6 +125,9 @@ const getUser = async (ctx, next) => {
             employee: {
               select: ["id"],
               populate: {
+                storeEmployee: {
+                  select: ["id"],
+                },
                 userInfo: {
                   select: [
                     "firstName",
