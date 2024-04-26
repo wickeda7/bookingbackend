@@ -45,7 +45,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
   test: async (ctx) => {
     const { clientId, specialistId, appointId } = ctx.params;
     try {
-      const temp = Math.ceil(Math.random() * 4);
+      const temp = Math.ceil(Math.random() * 8);
       console.log("temp", temp);
       console.log("test", clientId, specialistId, appointId);
       const data = [
@@ -89,7 +89,6 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 5,
           total: 76,
           type: "walkin",
-          testCreatedAt: new Date(),
         },
         {
           additional: 4,
@@ -122,7 +121,6 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 4,
           total: 59,
           type: "walkin",
-          testCreatedAt: new Date(),
         },
         {
           additional: 4,
@@ -155,7 +153,6 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 8,
           total: 90,
           type: "walkin",
-          testCreatedAt: new Date(),
         },
         {
           additional: 4,
@@ -188,7 +185,116 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 9,
           total: 99,
           type: "appointment",
-          testCreatedAt: new Date(),
+        },
+        {
+          additional: 4,
+          appointment: appointId,
+          client: clientId,
+          createdby: "admin",
+          services: [
+            {
+              additional: 4,
+              bookingId: 99,
+              id: 1,
+              name: "White Tip Full Set",
+              notes: "",
+              price: 65,
+              total: 69,
+            },
+            {
+              additional: 0,
+              bookingId: 99,
+              id: 2,
+              name: "Gel removal",
+              notes: "",
+              price: 3,
+              total: 3,
+            },
+          ],
+          specialist: specialistId,
+          store: 1,
+          subtotal: 68,
+          tips: 8,
+          total: 72,
+          type: "appointment",
+        },
+        {
+          additional: 4,
+          appointment: appointId,
+          client: clientId,
+          createdby: "admin",
+          services: [
+            {
+              additional: 4,
+              bookingId: 99,
+              id: 1,
+              name: "Regular Fill-in",
+              notes: "",
+              price: 50,
+              total: 54,
+            },
+            {
+              additional: 0,
+              bookingId: 99,
+              id: 2,
+              name: "Gel Take Off W/ Service",
+              notes: "",
+              price: 8,
+              total: 8,
+            },
+          ],
+          specialist: specialistId,
+          store: 1,
+          subtotal: 58,
+          tips: 8,
+          total: 62,
+          type: "walkin",
+        },
+        {
+          additional: 0,
+          appointment: appointId,
+          client: clientId,
+          createdby: "admin",
+          services: [
+            {
+              additional: 0,
+              bookingId: 99,
+              id: 2,
+              name: "Gel X Full Set",
+              notes: "",
+              price: 70,
+              total: 70,
+            },
+          ],
+          specialist: specialistId,
+          store: 1,
+          subtotal: 70,
+          tips: 8,
+          total: 70,
+          type: "appointment",
+        },
+        {
+          additional: 0,
+          appointment: appointId,
+          client: clientId,
+          createdby: "admin",
+          services: [
+            {
+              additional: 0,
+              bookingId: 99,
+              id: 2,
+              name: "White Tip Full Set",
+              notes: "",
+              price: 65,
+              total: 65,
+            },
+          ],
+          specialist: specialistId,
+          store: 1,
+          subtotal: 65,
+          tips: 8,
+          total: 65,
+          type: "appointment",
         },
       ];
 
