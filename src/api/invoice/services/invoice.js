@@ -13,7 +13,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
     try {
       const data = await strapi.entityService.findMany("api::invoice.invoice", {
         filters: {
-          $and: [{ store: id }, { testCreatedAt: { $gte: start, $lte: end } }],
+          $and: [{ store: id }, { createdAt: { $gte: start, $lte: end } }],
         },
         populate: {
           specialist: true,
