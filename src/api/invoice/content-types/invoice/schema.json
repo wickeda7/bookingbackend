@@ -45,7 +45,8 @@
     "appointment": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::appointment.appointment"
+      "target": "api::appointment.appointment",
+      "inversedBy": "invoice"
     },
     "testCreatedAt": {
       "type": "date"
