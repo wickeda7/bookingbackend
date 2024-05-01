@@ -89,6 +89,8 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 5,
           total: 76,
           type: "walkin",
+          cardAmount: 76,
+          cashAmount: 0,
         },
         {
           additional: 4,
@@ -121,6 +123,8 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 4,
           total: 59,
           type: "walkin",
+          cardAmount: 0,
+          cashAmount: 59,
         },
         {
           additional: 4,
@@ -153,6 +157,8 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 8,
           total: 90,
           type: "walkin",
+          cardAmount: 45,
+          cashAmount: 45,
         },
         {
           additional: 4,
@@ -185,6 +191,8 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 9,
           total: 99,
           type: "appointment",
+          cardAmount: 99,
+          cashAmount: 0,
         },
         {
           additional: 4,
@@ -217,6 +225,8 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 8,
           total: 72,
           type: "appointment",
+          cardAmount: 0,
+          cashAmount: 72,
         },
         {
           additional: 4,
@@ -249,6 +259,8 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 8,
           total: 62,
           type: "walkin",
+          cardAmount: 62,
+          cashAmount: 0,
         },
         {
           additional: 0,
@@ -272,6 +284,8 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 8,
           total: 70,
           type: "appointment",
+          cardAmount: 35,
+          cashAmount: 35,
         },
         {
           additional: 0,
@@ -295,6 +309,8 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           tips: 8,
           total: 65,
           type: "appointment",
+          cardAmount: 0,
+          cashAmount: 59,
         },
       ];
 
