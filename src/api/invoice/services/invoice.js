@@ -144,8 +144,8 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
             {
               additional: 0,
               bookingId: 99,
-              id: 22,
-              name: "Gel Take Off W/ Service",
+              id: 21,
+              name: "Gel Take Off W/O Service",
               notes: "",
               price: 8,
               total: 8,
