@@ -310,7 +310,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           total: 65,
           type: "appointment",
           cardAmount: 0,
-          cashAmount: 59,
+          cashAmount: 65,
         },
         {
           additional: 0,
