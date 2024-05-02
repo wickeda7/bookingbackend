@@ -45,7 +45,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
   test: async (ctx) => {
     const { clientId, specialistId, appointId } = ctx.params;
     try {
-      const temp = Math.ceil(Math.random() * 8);
+      const temp = Math.ceil(Math.random() * 9);
       console.log("temp", temp);
       console.log("test", clientId, specialistId, appointId);
       const data = [
@@ -101,7 +101,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
             {
               additional: 4,
               bookingId: 99,
-              id: 1,
+              id: 5,
               name: "London Combo",
               notes: "",
               price: 48,
@@ -135,7 +135,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
             {
               additional: 4,
               bookingId: 99,
-              id: 1,
+              id: 12,
               name: "Gel X Full Set",
               notes: "",
               price: 70,
@@ -144,7 +144,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
             {
               additional: 0,
               bookingId: 99,
-              id: 2,
+              id: 22,
               name: "Gel Take Off W/ Service",
               notes: "",
               price: 8,
@@ -169,16 +169,16 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
             {
               additional: 4,
               bookingId: 99,
-              id: 1,
+              id: 6,
               name: "Full Set",
               notes: "",
-              price: 65,
-              total: 69,
+              price: 60,
+              total: 64,
             },
             {
               additional: 0,
               bookingId: 99,
-              id: 2,
+              id: 14,
               name: "Gel Color",
               notes: "",
               price: 30,
@@ -203,7 +203,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
             {
               additional: 4,
               bookingId: 99,
-              id: 1,
+              id: 7,
               name: "White Tip Full Set",
               notes: "",
               price: 65,
@@ -237,7 +237,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
             {
               additional: 4,
               bookingId: 99,
-              id: 1,
+              id: 9,
               name: "Regular Fill-in",
               notes: "",
               price: 50,
@@ -246,7 +246,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
             {
               additional: 0,
               bookingId: 99,
-              id: 2,
+              id: 20,
               name: "Gel Take Off W/ Service",
               notes: "",
               price: 8,
@@ -271,7 +271,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
             {
               additional: 0,
               bookingId: 99,
-              id: 2,
+              id: 12,
               name: "Gel X Full Set",
               notes: "",
               price: 70,
@@ -296,7 +296,7 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
             {
               additional: 0,
               bookingId: 99,
-              id: 2,
+              id: 7,
               name: "White Tip Full Set",
               notes: "",
               price: 65,
@@ -311,6 +311,31 @@ module.exports = createCoreService("api::invoice.invoice", ({ strapi }) => ({
           type: "appointment",
           cardAmount: 0,
           cashAmount: 59,
+        },
+        {
+          additional: 0,
+          appointment: appointId,
+          client: clientId,
+          createdby: "admin",
+          services: [
+            {
+              additional: 0,
+              bookingId: 99,
+              id: 4,
+              name: "London Pedicure",
+              notes: "",
+              price: 30,
+              total: 30,
+            },
+          ],
+          specialist: specialistId,
+          store: 1,
+          subtotal: 30,
+          tips: 8,
+          total: 30,
+          type: "appointment",
+          cardAmount: 0,
+          cashAmount: 30,
         },
       ];
 
