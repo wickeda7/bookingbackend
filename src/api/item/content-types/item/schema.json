@@ -42,6 +42,12 @@
       "relation": "manyToOne",
       "target": "api::sub-service.sub-service",
       "inversedBy": "items"
+    },
+    "storeId": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::store.store",
+      "inversedBy": "items"
     }
   }
 }

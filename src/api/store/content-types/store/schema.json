@@ -150,6 +150,12 @@
     "setTurns": {
       "type": "boolean",
       "default": false
+    },
+    "items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::item.item",
+      "mappedBy": "storeId"
     }
   }
 }
