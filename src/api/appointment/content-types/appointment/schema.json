@@ -69,6 +69,12 @@
       "relation": "oneToOne",
       "target": "api::invoice.invoice",
       "inversedBy": "appointment"
+    },
+    "register": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::register.register",
+      "inversedBy": "appointments"
     }
   }
 }

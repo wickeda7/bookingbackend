@@ -112,6 +112,12 @@
       "relation": "manyToMany",
       "target": "api::appointment.appointment",
       "mappedBy": "specialists"
+    },
+    "register": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::register.register",
+      "mappedBy": "users_permissions_user"
     }
   }
 }
