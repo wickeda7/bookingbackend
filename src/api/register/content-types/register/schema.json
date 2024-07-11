@@ -18,9 +18,6 @@
     "email": {
       "type": "email"
     },
-    "phone": {
-      "type": "biginteger"
-    },
     "users_permissions_user": {
       "type": "relation",
       "relation": "oneToOne",
@@ -32,6 +29,9 @@
       "relation": "oneToMany",
       "target": "api::appointment.appointment",
       "mappedBy": "register"
+    },
+    "phone": {
+      "type": "string"
     }
   }
 }
