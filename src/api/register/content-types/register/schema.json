@@ -4,7 +4,8 @@
   "info": {
     "singularName": "register",
     "pluralName": "registers",
-    "displayName": "register"
+    "displayName": "register",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -18,7 +19,7 @@
       "type": "email"
     },
     "phone": {
-      "type": "integer"
+      "type": "biginteger"
     },
     "users_permissions_user": {
       "type": "relation",
