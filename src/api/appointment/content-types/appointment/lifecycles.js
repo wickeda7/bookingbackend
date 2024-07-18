@@ -51,7 +51,7 @@ module.exports = {
         .findOne({
           where: { id: result.registerId },
         });
-      console.log("get client data as client filter userInfo", clientData);
+      result["client"] = clientData;
     }
     const storeTokens = data.admin.reduce((acc, curr) => {
       if (curr.userInfo.pushToken) {
