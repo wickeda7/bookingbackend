@@ -75,6 +75,9 @@
       "relation": "manyToOne",
       "target": "api::register.register",
       "inversedBy": "appointments"
+    },
+    "registerId": {
+      "type": "integer"
     }
   }
 }
