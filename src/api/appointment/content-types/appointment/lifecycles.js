@@ -42,6 +42,17 @@ module.exports = {
         },
       },
     });
+    if (result.userID) {
+      console.log("get user data as client filter userInfo");
+    }
+    if (result.registerId) {
+      const clientData = await strapi.db
+        .query("api::register.register")
+        .findOne({
+          where: { id: result.registerId },
+        });
+      console.log("get client data as client filter userInfo", clientData);
+    }
     const storeTokens = data.admin.reduce((acc, curr) => {
       if (curr.userInfo.pushToken) {
         acc.push(curr.userInfo.pushToken);
