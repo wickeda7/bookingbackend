@@ -15,9 +15,6 @@
     "name": {
       "type": "string"
     },
-    "email": {
-      "type": "email"
-    },
     "users_permissions_user": {
       "type": "relation",
       "relation": "oneToOne",
@@ -35,6 +32,9 @@
     },
     "storeId": {
       "type": "integer"
+    },
+    "email": {
+      "type": "string"
     }
   }
 }
