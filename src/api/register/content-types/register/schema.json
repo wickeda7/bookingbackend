@@ -32,6 +32,9 @@
     },
     "phone": {
       "type": "string"
+    },
+    "storeId": {
+      "type": "integer"
     }
   }
 }
