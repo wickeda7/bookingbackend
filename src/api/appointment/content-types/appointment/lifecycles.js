@@ -51,6 +51,8 @@ module.exports = {
         .findOne({
           where: { id: result.registerId },
         });
+      delete clientData.updatedBy;
+      delete clientData.createdBy;
       result["client"] = clientData;
     }
     const storeTokens = data.admin.reduce((acc, curr) => {
