@@ -15,6 +15,7 @@ module.exports = {
     delete result.createdBy;
     result["type"] = "newBooking";
     const bookingId = result.id;
+    console.log("result", result);
     const type = result.timeslot === null ? "walkin" : "appointment";
     let services =
       typeof result.services === "string"
