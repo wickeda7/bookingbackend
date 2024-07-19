@@ -66,12 +66,15 @@ module.exports = createCoreService("api::register.register", ({ strapi }) => ({
         if (appointments.length > 0) {
           const services = appointments.map((a) => {
             const { services, updatedAt, specialists } = a;
-            const {
-              id,
-              userInfo: { firstName, lastName },
-            } = specialists[0];
+            let specialist = null;
+            if (specialists.length > 0) {
+              const {
+                id,
+                userInfo: { firstName, lastName },
+              } = specialists[0];
 
-            const specialist = { id, firstName, lastName };
+              specialist = { id, firstName, lastName };
+            }
             console.log("specialist", specialist);
             return { services, updatedAt, specialist };
           });
@@ -83,7 +86,8 @@ module.exports = createCoreService("api::register.register", ({ strapi }) => ({
       console.log("user", user?.id, user);
       return user;
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      throw error;
     }
   },
 }));
