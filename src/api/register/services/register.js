@@ -26,6 +26,9 @@ module.exports = createCoreService("api::register.register", ({ strapi }) => ({
       orfilters.push({ phone });
     }
     try {
+      if (orfilters.length === 0) {
+        throw new Error("No filters provided");
+      }
       const data = await strapi.entityService.findMany(
         "api::register.register",
         {
