@@ -1,6 +1,6 @@
 "use strict";
 
-const { filter, sort } = require("../../../../config/middlewares");
+const { filter, sort, pop } = require("../../../../config/middlewares");
 
 /**
  * register service
@@ -49,18 +49,35 @@ module.exports = createCoreService("api::register.register", ({ strapi }) => ({
           "api::appointment.appointment",
           {
             filters: { register: user.id },
+            populate: {
+              specialists: {
+                fields: ["id"],
+                populate: {
+                  userInfo: {
+                    fields: ["firstName", "lastName"],
+                  },
+                },
+              },
+            },
             sort: { createdAt: "desc" },
             limit: 10,
           }
         );
         if (appointments.length > 0) {
           const services = appointments.map((a) => {
-            const { services, updatedAt } = a;
-            return { services, updatedAt };
+            const { services, updatedAt, specialists } = a;
+            const {
+              id,
+              userInfo: { firstName, lastName },
+            } = specialists[0];
+
+            const specialist = { id, firstName, lastName };
+            console.log("specialist", specialist);
+            return { services, updatedAt, specialist };
           });
           user.prevServices = services;
         }
-        console.log("appointments", appointments);
+        //console.log("appointments", appointments);
       }
       // const user = data[0];
       console.log("user", user?.id, user);
