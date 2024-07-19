@@ -58,7 +58,7 @@ module.exports = createCoreService("api::register.register", ({ strapi }) => ({
             const { services, updatedAt } = a;
             return { services, updatedAt };
           });
-          user.prevServices = appointments;
+          user.prevServices = services;
         }
         console.log("appointments", appointments);
       }
