@@ -12,24 +12,25 @@ module.exports = createCoreService("api::register.register", ({ strapi }) => ({
   getRegister: async (ctx) => {
     const { name, email, phone, storeId } = ctx.query;
     let user = null;
+    console.log("getRegister", ctx.query);
     // console.log("getRegister", ctx.query);
     // return;
+    const orfilters = [];
+    if (name) {
+      orfilters.push({ name });
+    }
+    if (email) {
+      orfilters.push({ email });
+    }
+    if (phone) {
+      orfilters.push({ phone });
+    }
     try {
       const data = await strapi.entityService.findMany(
         "api::register.register",
         {
           filters: {
-            $or: [
-              {
-                name,
-              },
-              {
-                email,
-              },
-              {
-                phone,
-              },
-            ],
+            $or: orfilters,
             $and: [
               {
                 storeId,
@@ -38,6 +39,7 @@ module.exports = createCoreService("api::register.register", ({ strapi }) => ({
           },
         }
       );
+      console.log("data", data);
       if (data.length > 0) {
         user = data[0];
         const appointments = await strapi.entityService.findMany(
@@ -58,7 +60,7 @@ module.exports = createCoreService("api::register.register", ({ strapi }) => ({
         console.log("appointments", appointments);
       }
       // const user = data[0];
-      console.log("user", user.id, user);
+      console.log("user", user?.id, user);
       return user;
     } catch (error) {
       console.log(error);
