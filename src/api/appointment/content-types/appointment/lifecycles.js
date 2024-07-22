@@ -17,15 +17,17 @@ module.exports = {
     const bookingId = result.id;
     console.log("result", result);
     const type = result.timeslot === null ? "walkin" : "appointment";
-    let services =
-      typeof result.services === "string"
-        ? JSON.parse(result.services)
-        : result.services;
-    const status = "pending";
-    services = services.map((service) => {
-      return { ...service, status, bookingId, type };
-    });
-    result["services"] = services;
+    if (result.services) {
+      let services =
+        typeof result.services === "string"
+          ? JSON.parse(result.services)
+          : result.services;
+      const status = "pending";
+      services = services.map((service) => {
+        return { ...service, status, bookingId, type };
+      });
+      result["services"] = services;
+    }
     const storeId = result.storeID;
     const data = await strapi.db.query("api::store.store").findOne({
       select: ["name"],
