@@ -57,7 +57,7 @@ module.exports = {
             },
           },
         });
-      result["client"] = userData;
+      result["client"] = { id: userData.id, ...userData.userInfo };
     }
     if (result.registerId) {
       const clientData = await strapi.db
