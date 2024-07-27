@@ -45,7 +45,19 @@ module.exports = {
       },
     });
     if (result.userID) {
-      console.log("get user data as client filter userInfo");
+      const userData = await strapi
+        .query("plugin::users-permissions.user")
+        .findOne({
+          where: { id: result.userID },
+          select: ["id"],
+          populate: {
+            // @ts-ignore
+            userInfo: {
+              select: ["firstName", "lastName"],
+            },
+          },
+        });
+      result["client"] = userData;
     }
     if (result.registerId) {
       const clientData = await strapi.db
