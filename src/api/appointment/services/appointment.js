@@ -140,8 +140,8 @@ module.exports = createCoreService(
             const newSpecialist = !specialist ? staff : specialist;
             const newClient = !client ? register : client;
             console.log("newServ client", client);
-            console.log("newServ register", register);
-            console.log("newServ newClient", newClient);
+            console.log("newServ register.........", register);
+            console.log("newServ newClient........", newClient);
             return [
               ...acc,
               {
@@ -229,7 +229,7 @@ module.exports = createCoreService(
               );
             }
           }
-          console.log("data", data);
+          console.log("data............", data);
           return data;
         } catch (error) {}
       }
