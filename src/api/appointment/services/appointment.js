@@ -42,7 +42,7 @@ module.exports = createCoreService(
     putBooking: async (ctx, next) => {
       const { id } = ctx.params;
       const { service, type, staff } = ctx.request.body.data;
-      console.log("service", service);
+      // console.log("service", service);
       // console.log("type", type);
       // console.log("staff", staff);
       // console.log("ctx.request.body.data", ctx.request.body.data);
@@ -93,6 +93,7 @@ module.exports = createCoreService(
         servicesP =
           typeof services === "string" ? JSON.parse(services) : services;
 
+        console.log("servicesP", servicesP);
         if (type === "remove") {
           const id = service.id;
           newServ = servicesP.map((item) => {
@@ -137,7 +138,8 @@ module.exports = createCoreService(
             } = item;
             const newStatus = !specialist ? "working" : status;
             const newSpecialist = !specialist ? staff : specialist;
-
+            console.log("newServ client", client);
+            console.log("newServ register", register);
             return [
               ...acc,
               {
