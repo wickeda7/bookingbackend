@@ -137,6 +137,7 @@ module.exports = createCoreService(
             const newStatus = !specialist ? "working" : status;
             const newSpecialist = !specialist ? staff : specialist;
             const newClient = !client ? register : client;
+            const isRegistered = !client ? true : false;
             return [
               ...acc,
               {
@@ -155,6 +156,7 @@ module.exports = createCoreService(
                 specialistID: newSpecialist.id,
                 timeslot: timeslot,
                 userID: userID,
+                isRegistered,
               },
             ];
           }, []);
