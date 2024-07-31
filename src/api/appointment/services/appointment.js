@@ -138,8 +138,10 @@ module.exports = createCoreService(
             } = item;
             const newStatus = !specialist ? "working" : status;
             const newSpecialist = !specialist ? staff : specialist;
+            const newClient = !client ? register : client;
             console.log("newServ client", client);
             console.log("newServ register", register);
+            console.log("newServ newClient", newClient);
             return [
               ...acc,
               {
@@ -151,7 +153,7 @@ module.exports = createCoreService(
                 specialist: newSpecialist,
                 status: newStatus,
                 callBack: callBack,
-                client: client,
+                client: newClient,
                 storeID: storeID,
                 date: date,
                 bookingId: bookingId,
