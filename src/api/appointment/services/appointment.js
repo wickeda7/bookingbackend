@@ -68,7 +68,6 @@ module.exports = createCoreService(
           },
         }
       );
-      console.log("entry", entry);
       if (entry) {
         const {
           id: bookingId,
@@ -93,7 +92,6 @@ module.exports = createCoreService(
         servicesP =
           typeof services === "string" ? JSON.parse(services) : services;
 
-        console.log("servicesP", servicesP);
         if (type === "remove") {
           const id = service.id;
           newServ = servicesP.map((item) => {
@@ -139,9 +137,6 @@ module.exports = createCoreService(
             const newStatus = !specialist ? "working" : status;
             const newSpecialist = !specialist ? staff : specialist;
             const newClient = !client ? register : client;
-            console.log("newServ client", client);
-            console.log("newServ register.........", register);
-            console.log("newServ newClient........", newClient);
             return [
               ...acc,
               {
@@ -229,7 +224,6 @@ module.exports = createCoreService(
               );
             }
           }
-          console.log("data............", data);
           return data;
         } catch (error) {}
       }
