@@ -1,5 +1,7 @@
 "use strict";
 
+const { register } = require("../../..");
+
 /**
  * appointment service
  */
@@ -40,7 +42,7 @@ module.exports = createCoreService(
     putBooking: async (ctx, next) => {
       const { id } = ctx.params;
       const { service, type, staff } = ctx.request.body.data;
-      // console.log("service", service);
+      console.log("service", service);
       // console.log("type", type);
       // console.log("staff", staff);
       // console.log("ctx.request.body.data", ctx.request.body.data);
@@ -62,9 +64,11 @@ module.exports = createCoreService(
                 userInfo: true,
               },
             },
+            register: true,
           },
         }
       );
+      console.log("entry", entry);
       if (entry) {
         const {
           id: bookingId,
@@ -76,6 +80,7 @@ module.exports = createCoreService(
           callBack,
           client,
           specialists,
+          register,
         } = entry;
         let newServ = [];
         let updateData = {};
@@ -195,6 +200,7 @@ module.exports = createCoreService(
                     userInfo: true,
                   },
                 },
+                register: true,
               },
             }
           );
@@ -219,6 +225,7 @@ module.exports = createCoreService(
               );
             }
           }
+          console.log("data", data);
           return data;
         } catch (error) {}
       }
