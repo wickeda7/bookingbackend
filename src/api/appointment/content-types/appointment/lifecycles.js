@@ -15,7 +15,6 @@ module.exports = {
     delete result.createdBy;
     result["type"] = "newBooking";
     const bookingId = result.id;
-    console.log("result", result);
     const type = result.timeslot === null ? "walkin" : "appointment";
     if (result.services) {
       let services =
@@ -82,6 +81,7 @@ module.exports = {
         message: `You have a new service.`,
         data: result,
       };
+      console.log("send push notification", storeTokens, messageData);
       strapi.services["api::appointment.notification"].handlePushTokens(
         storeTokens,
         messageData
