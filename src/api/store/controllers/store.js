@@ -11,6 +11,7 @@ module.exports = createCoreController("api::store.store", ({ strapi }) => ({
     // const { id } = ctx.params;
     try {
       const data = await strapi.service("api::store.store").populate(ctx);
+      console.log("data", data);
       ctx.send(
         {
           data,

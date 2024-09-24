@@ -164,7 +164,6 @@ module.exports = createCoreService("api::store.store", ({ strapi }) => ({
           },
         },
       });
-      console.log("entry", entry);
       return entry;
     } catch (error) {
       console.log(error);
