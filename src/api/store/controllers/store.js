@@ -19,7 +19,9 @@ module.exports = createCoreController("api::store.store", ({ strapi }) => ({
         },
         200
       );
-    } catch (error) {}
+    } catch (error) {
+      console.log("error", error);
+    }
   },
   getStores: async (ctx, next) => {
     try {
