@@ -5,7 +5,8 @@
  */
 
 const { createCoreController } = require("@strapi/strapi").factories;
-
+const { errors } = require("@strapi/utils");
+const { UnauthorizedError } = errors;
 module.exports = createCoreController(
   "api::register.register",
   ({ strapi }) => ({
@@ -30,7 +31,11 @@ module.exports = createCoreController(
         console.log("token", token);
         console.log("name", name);
         if (token !== "valid-token") {
-          return ctx.unauthorized("Invalid token");
+          const error = {
+            message: "Invalid token1",
+            status: 401,
+          };
+          throw error;
         }
         ctx.send(
           {
@@ -40,6 +45,7 @@ module.exports = createCoreController(
         );
       } catch (error) {
         console.log("error", error);
+        throw new UnauthorizedError("Invalid token");
       }
     },
   })
