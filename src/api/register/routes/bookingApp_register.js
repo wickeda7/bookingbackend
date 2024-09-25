@@ -8,5 +8,13 @@ module.exports = {
         policies: [],
       },
     },
+    {
+      method: "POST",
+      path: "/register/test", ////api/appointments/specialists/24_30
+      handler: "register.test",
+      config: {
+        policies: [],
+      },
+    },
   ],
 };

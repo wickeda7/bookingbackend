@@ -23,5 +23,24 @@ module.exports = createCoreController(
         );
       } catch (error) {}
     },
+    test: async (ctx, next) => {
+      try {
+        const { name } = ctx.request.body.data;
+        const token = ctx.request.header.authorization; //valid-token
+        console.log("token", token);
+        console.log("name", name);
+        if (token !== "valid-token") {
+          return ctx.unauthorized("Invalid token");
+        }
+        ctx.send(
+          {
+            name,
+          },
+          200
+        );
+      } catch (error) {
+        console.log("error", error);
+      }
+    },
   })
 );
