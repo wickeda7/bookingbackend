@@ -26,6 +26,24 @@ module.exports = createCoreController(
     },
     test: async (ctx, next) => {
       try {
+        const data = await strapi
+          // @ts-ignore
+          .service("api::register.register")
+          .test(ctx);
+        ctx.send(
+          {
+            data,
+          },
+          200
+        );
+      } catch (error) {
+        console.log("error", error);
+        ///throw new UnauthorizedError("Invalid token");
+        ctx.throw(error);
+      }
+    },
+    test1: async (ctx, next) => {
+      try {
         const { name } = ctx.request.body.data;
         const token = ctx.request.header.authorization; //valid-token
         console.log("token", token);

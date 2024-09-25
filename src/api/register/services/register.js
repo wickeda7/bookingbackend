@@ -1,7 +1,8 @@
 "use strict";
 
 const { filter, sort, pop } = require("../../../../config/middlewares");
-
+const { errors } = require("@strapi/utils");
+const { UnauthorizedError } = errors;
 /**
  * register service
  */
@@ -9,6 +10,16 @@ const { filter, sort, pop } = require("../../../../config/middlewares");
 const { createCoreService } = require("@strapi/strapi").factories;
 
 module.exports = createCoreService("api::register.register", ({ strapi }) => ({
+  test: async (ctx) => {
+    const { name } = ctx.request.body.data;
+    const token = ctx.request.header.authorization; //valid-token
+    console.log("token", token);
+    console.log("name", name);
+    if (token !== "valid-token") {
+      throw new UnauthorizedError("Invalid token");
+    }
+    return { name };
+  },
   getRegister: async (ctx) => {
     const { name, email, phone, storeId } = ctx.query;
     let user = null;
